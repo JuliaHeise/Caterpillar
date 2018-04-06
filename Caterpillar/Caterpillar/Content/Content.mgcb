@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Color
 /build:CaterpillarImgV1.png
 
-#begin CaterpillarOnBack.dae
+#begin HeadV1.dae
 /importer:OpenAssetImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -42,5 +42,24 @@
 /processorParam:Scale=0.4
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:CaterpillarOnBack.dae
+/build:HeadV1.dae
+
+#begin Tail1.dae
+/importer:OpenAssetImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=180
+/processorParam:RotationZ=0
+/processorParam:Scale=0.4
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:Tail1.dae
 

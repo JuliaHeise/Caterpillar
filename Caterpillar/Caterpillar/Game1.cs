@@ -19,6 +19,7 @@ namespace Caterpillar
 
         //Momentanes Modell zum 3D zeug testen, Löschen wenn wir eine Player Klasse haben
         Model deleteMe;
+        Model deleteMeTail;
 
         public Game1()
         {
@@ -42,7 +43,8 @@ namespace Caterpillar
             worldMatrix = Matrix.CreateWorld(camTarget, Vector3.
                           Forward, Vector3.Up);
 
-            deleteMe = Content.Load<Model>("CaterpillarOnBack");
+            deleteMe = Content.Load<Model>("HeadV1");
+            deleteMeTail = Content.Load<Model>("Tail1");
         }
 
         protected override void LoadContent()
@@ -112,6 +114,18 @@ namespace Caterpillar
                     effect.AmbientLightColor = new Vector3(1f, 0, 0);
                     effect.View = viewMatrix;
                     effect.World = worldMatrix;
+                    effect.Projection = projectionMatrix;
+                }
+                mesh.Draw();
+            }
+            foreach (ModelMesh mesh in deleteMeTail.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    //effect.EnableDefaultLighting();
+                    effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                    effect.View = viewMatrix;
+                    effect.World = Matrix.CreateWorld(new Vector3(0, -0.45f, 0), Vector3.Forward, Vector3.Up); ;
                     effect.Projection = projectionMatrix;
                 }
                 mesh.Draw();
