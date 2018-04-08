@@ -21,7 +21,7 @@ namespace Caterpillar.Raupe
         public Body()
         {
             _position = new Vector3(0.0f, -0.45f, 0.0f);
-            _direction = new Vector3(0.0f, 0.0f, 0.0f);
+            _direction = new Vector3(0.0f, 1.0f, 0.0f);
         }
 
         //Getter und Setter
@@ -53,7 +53,7 @@ namespace Caterpillar.Raupe
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(1.0f, 0, 0);
+                    effect.AmbientLightColor = new Vector3(0, 0, 0);
                     effect.View = viewMatrix;
                     effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
                     /*transforms[mesh.ParentBone.Index] 
@@ -70,24 +70,28 @@ namespace Caterpillar.Raupe
         //Update
         public void Update(GameTime gameTime)
         {
-            _direction = new Vector3(0.0f, 0.0f, 0.0f);
+            //_direction = new Vector3(0.0f, 0.0f, 0.0f);
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                _direction += new Vector3(0.0f, 1.0f, 0.0f);
+                _direction = new Vector3(0.0f, 1.0f, 0.0f);
+                _position += new Vector3(0.0f, _speed, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                _direction += new Vector3(1.0f, 0.0f, 0.0f);
+                _direction = new Vector3(1.0f, 0.0f, 0.0f);
+                _position += new Vector3(_speed, 0.0f, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                _direction += new Vector3(0.0f, -1.0f, 0.0f);
+                _direction = new Vector3(0.0f, -1.0f, 0.0f);
+                _position += new Vector3(0.0f, -_speed, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _direction += new Vector3(-1.0f, 0.0f, 0.0f);
+                _direction = new Vector3(-1.0f, 0.0f, 0.0f);
+                _position += new Vector3(-_speed, 0.0f, 0.0f);
             }
-            _position += _direction * _speed;
+            //_position += _direction * _speed  ;
         }
 
 
