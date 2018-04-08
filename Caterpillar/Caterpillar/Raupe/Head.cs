@@ -16,8 +16,10 @@ namespace Caterpillar.Raupe
         //Attribute
         Model _modelHead;
         private Vector3 _position;
+        public Vector3 _prevPos;
+        public Vector3 _prevDir;
         private Vector3 _direction;
-        private float _speed = 0.02f;
+        private float _speed = 0.05f;
 
         //constructor
         public Head()
@@ -66,34 +68,39 @@ namespace Caterpillar.Raupe
                 }
                 mesh.Draw();
             }
-
+        }
+        public void Previous()
+        {
+            _prevDir = _direction;
+            _prevPos = _position;
         }
 
         //Update
         public void Update(GameTime gameTime)
         {
-            //_direction = new Vector3(0.0f, 0.0f, 0.0f);
+ 
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                _direction = new Vector3(0.0f, 1.0f, 0.0f);
-                _position += new Vector3(0.0f, _speed, 0.0f);
+                _direction += new Vector3(0.0f, 1.0f, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                _direction = new Vector3(1.0f, 0.0f, 0.0f);
-                _position += new Vector3(_speed, 0.0f, 0.0f);
+                _direction += new Vector3(1.0f, 0.0f, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                _direction = new Vector3(0.0f, -1.0f, 0.0f);
-                _position += new Vector3(0.0f, -_speed, 0.0f);
+                _direction  += new Vector3(0.0f, -1.0f, 0.0f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _direction = new Vector3(-1.0f, 0.0f, 0.0f);
-                _position += new Vector3(-_speed, 0.0f, 0.0f);
+                _direction += new Vector3(-1.0f, 0.0f, 0.0f);
             }
-            //_position += _direction * _speed  ;
+           /* if(Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.W) && Keyboard.GetState().IsKeyUp(Keys.S) && Keyboard.GetState().IsKeyUp(Keys.D))
+            {
+                return;
+            }*/
+            _direction.Normalize();
+            _position += _direction * _speed;        
         }
     }
 }

@@ -15,13 +15,15 @@ namespace Caterpillar.Raupe
         Model _modelBody;
         private Vector3 _position;
         private Vector3 _direction;
-        private float _speed = 0.02f;
+        private Vector3 _aim;
+        private float _speed = 0.048f;
 
         //constructor
-        public Body()
+        public Body(Vector3 pos)
         {
-            _position = new Vector3(0.0f, -0.45f, 0.0f);
-            _direction = new Vector3(0.0f, 1.0f, 0.0f);
+            _position = new Vector3(0.0f, -0.5f, 0.0f);
+            _aim = pos;
+            _direction =_aim - _position;
         }
 
         //Getter und Setter
@@ -35,9 +37,20 @@ namespace Caterpillar.Raupe
             return this._position;
         }
 
-        public void SetSpeed(float newSpeed)
+        public float GetSpeed()
         {
-            this._speed = newSpeed;
+            return _speed;
+        }
+
+        public Vector3 GetAim()
+        {
+            return _aim;
+        }
+
+
+        public void SetAim(Vector3 pos)
+        {
+            _aim = pos;
         }
 
         public void Load()
@@ -70,28 +83,9 @@ namespace Caterpillar.Raupe
         //Update
         public void Update(GameTime gameTime)
         {
-            //_direction = new Vector3(0.0f, 0.0f, 0.0f);
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                _direction = new Vector3(0.0f, 1.0f, 0.0f);
-                _position += new Vector3(0.0f, _speed, 0.0f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                _direction = new Vector3(1.0f, 0.0f, 0.0f);
-                _position += new Vector3(_speed, 0.0f, 0.0f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                _direction = new Vector3(0.0f, -1.0f, 0.0f);
-                _position += new Vector3(0.0f, -_speed, 0.0f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                _direction = new Vector3(-1.0f, 0.0f, 0.0f);
-                _position += new Vector3(-_speed, 0.0f, 0.0f);
-            }
-            //_position += _direction * _speed  ;
+            _direction = _aim - _position;
+            _direction.Normalize();
+            _position += _direction * _speed;
         }
 
 

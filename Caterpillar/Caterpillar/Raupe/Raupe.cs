@@ -17,12 +17,17 @@ namespace Caterpillar.Raupe
         public Raupe()
         {
             _head = new Head();
-            _body = new Body();
+            _body = new Body(_head.GetPos());
         }
 
         public void Update(GameTime gameTime)
         {
             _head.Update(gameTime);
+            if ((_body.GetPos() - _body.GetAim()).Length() <  _body.GetSpeed())
+            {
+                _body.SetAim(_head.GetPos());
+                
+            }
             _body.Update(gameTime);
         }
 
