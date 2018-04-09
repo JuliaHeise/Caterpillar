@@ -8,7 +8,7 @@ using System.IO;
 namespace Caterpillar
 {
 
-    public class Game1 : Game
+    public class Caterpillar : Game
     {
         Random _rnd;
 
@@ -79,7 +79,7 @@ namespace Caterpillar
 
 
 
-        public Game1()
+        public Caterpillar()
         {
             Global.graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
