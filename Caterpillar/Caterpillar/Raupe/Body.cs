@@ -66,13 +66,9 @@ namespace Caterpillar.Raupe
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(0, 0, 0);
+                    effect.AmbientLightColor = new Vector3(0, 0.2f, 0);
                     effect.View = viewMatrix;
                     effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
-                    /*transforms[mesh.ParentBone.Index] 
-        Matrix.CreateScale(1, 1, 1) *
-        Matrix.CreateFromQuaternion(rotationQuaternion) *
-        Matrix.CreateTranslation(camTarget);*/
                     effect.Projection = projectionMatrix;
                 }
                 mesh.Draw();

@@ -16,5 +16,6 @@ namespace Caterpillar
         public static SpriteBatch spriteBatch;
         public static ContentManager ContentManager;
         public static Camera.Camera Camera;
+
     }
 }

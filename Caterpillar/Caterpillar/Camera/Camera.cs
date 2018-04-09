@@ -21,7 +21,7 @@ namespace Caterpillar.Camera
         public Camera()
         {
             camTarget = new Vector3(0f, 0f, 0f);
-            camPosition = new Vector3(0f, 0f, -5);
+            camPosition = new Vector3(0f, 0f, -9);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                                MathHelper.ToRadians(45f),
                                Global.graphics.GraphicsDevice.Viewport.AspectRatio,
@@ -34,22 +34,22 @@ namespace Caterpillar.Camera
         public void Update()
         {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 camPosition.X -= 0.1f;
                 camTarget.X -= 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 camPosition.X += 0.1f;
                 camTarget.X += 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 camPosition.Y -= 0.1f;
                 camTarget.Y -= 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 camPosition.Y += 0.1f;
                 camTarget.Y += 0.1f;
