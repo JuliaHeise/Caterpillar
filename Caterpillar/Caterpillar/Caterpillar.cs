@@ -19,6 +19,7 @@ namespace Caterpillar
         //Konstanten
         int viewSizeWidth = 1600; //Breite des Spielfensters
         int viewSizeHeight = 900;
+        float _CrateSize = 0.5f;
 
         //Kistenspawnfunktion
         public static int _maxCrateNum = 8;
@@ -71,6 +72,27 @@ namespace Caterpillar
             }
         }
 
+
+        //Kollisionsfunktion
+        double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
+        {
+            return (Math.Sqrt(Math.Pow(v2.X - v1.X,2) + Math.Pow(v2.Y - v1.Y, 2)));
+        }
+
+        void CheckPlayerCollision(Raupe.Raupe _Raupe, MapObject.Crate[] _CArray)
+        {
+            for(int i = 0; i<_CArray.Length; i++)
+            {
+                if (_CArray[i] != null)
+                {
+                    if (VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < _CrateSize)
+                    {
+                        _CArray[i] = null;
+                        _Raupe.addToLength(1);
+                    }
+                }
+            }
+        }
 
 
 
@@ -129,6 +151,8 @@ namespace Caterpillar
             }
 
             _player.Update(gameTime);
+
+            CheckPlayerCollision(_player, _crateArray);
 
             base.Update(gameTime);
 

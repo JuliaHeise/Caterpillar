@@ -12,10 +12,12 @@ namespace Caterpillar.Raupe
 {
     class Raupe
     {
+        int _length;
         Head _head;
         Body _body;
         public Raupe()
         {
+            _length = 1;
             _head = new Head();
             _body = new Body(_head.GetPos());
         }
@@ -29,6 +31,15 @@ namespace Caterpillar.Raupe
                 
             }
             _body.Update(gameTime);
+        }
+
+        public Vector3 getPosition()
+        {
+            return _head.GetPos();
+        }
+        public void addToLength(int n)
+        {
+            _length += n;
         }
 
         public void Load()
