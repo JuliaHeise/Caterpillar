@@ -13,7 +13,7 @@ namespace Caterpillar.Camera
     {
         //3D Camera
         Vector3 camTarget;
-        Vector3 camPosition;
+        public Vector3 camPosition;
         public Matrix projectionMatrix;
         public Matrix viewMatrix;
         Matrix worldMatrix;
@@ -34,22 +34,22 @@ namespace Caterpillar.Camera
         public void Update()
         {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 camPosition.X -= 0.1f;
                 camTarget.X -= 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 camPosition.X += 0.1f;
                 camTarget.X += 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 camPosition.Y -= 0.1f;
                 camTarget.Y -= 0.1f;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 camPosition.Y += 0.1f;
                 camTarget.Y += 0.1f;

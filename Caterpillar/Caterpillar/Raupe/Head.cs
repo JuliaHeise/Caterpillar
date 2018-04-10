@@ -72,9 +72,39 @@ namespace Caterpillar.Raupe
         }
 
         //Update
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Camera.Camera cam)
         {
- 
+            int _halfWidth = (int)(0.5 * Global.viewSizeWidth);
+            int _halfHeight = (int)(0.5 * Global.viewSizeHeight);
+
+            int _camCorrX;
+
+            if (cam.camPosition.X == 0)
+                _camCorrX = 0;
+            else
+                _camCorrX = (int)(_halfWidth / 10.8);
+
+            int _camCorrY;
+
+            if (cam.camPosition.Y == 0)
+                _camCorrY = 0;
+            else
+                _camCorrY = (int)(_halfWidth / 7.5);
+
+
+            int _mouseX = -(int)((Mouse.GetState().Position.X- _halfWidth)) + (int)cam.camPosition.X*_camCorrX;
+            int _mouseY = -(int)((Mouse.GetState().Position.Y- _halfHeight)) + (int)cam.camPosition.Y*_camCorrY;
+            float _scale = 87.5f / (-cam.camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
+
+            //Console.Out.WriteLine("Cax "+ cam.camPosition.X); //10.8 = 1/2 width, 0 = 0 
+            //Console.Out.WriteLine("Cax " + cam.camPosition.Y); //7.5 = 1/2 height, 0 = 0
+
+
+            _direction += new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f);
+           // Console.Out.WriteLine(_direction);
+
+
+            /*
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 _direction += new Vector3(0.0f, 1.0f, 0.0f);
@@ -90,13 +120,11 @@ namespace Caterpillar.Raupe
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _direction += new Vector3(-1.0f, 0.0f, 0.0f);
-            }
-           /* if(Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.W) && Keyboard.GetState().IsKeyUp(Keys.S) && Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                return;
             }*/
+
+
             _direction.Normalize();
-            _position += _direction * _speed;        
+            _position += _direction * _speed;    
         }
     }
 }

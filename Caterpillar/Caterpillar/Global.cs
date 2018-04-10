@@ -15,7 +15,9 @@ namespace Caterpillar
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static ContentManager ContentManager;
-        public static Camera.Camera Camera;
+        public static Camera.Camera GameCamera;
+        public static int viewSizeWidth = 1600; //Breite des Spielfensters
+        public static int viewSizeHeight = 900;
 
         public static double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
         {

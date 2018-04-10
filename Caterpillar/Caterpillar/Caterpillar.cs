@@ -11,14 +11,14 @@ namespace Caterpillar
     public class Caterpillar : Game
     {
         Random _rnd;
+        Texture2D _textureCursor;
 
 
         //Player
         Raupe.Raupe _player;
 
         //Konstanten
-        int viewSizeWidth = 1600; //Breite des Spielfensters
-        int viewSizeHeight = 900;
+
         float _CrateSize = 0.5f;
 
         //Kistenspawnfunktion
@@ -82,20 +82,17 @@ namespace Caterpillar
 
 
 
-
-
-
         public Caterpillar()
         {
             Global.graphics = new GraphicsDeviceManager(this);
             //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             Global.ContentManager = Content;
-            Global.graphics.PreferredBackBufferWidth = viewSizeWidth;  // Fenstermaße setzen
-            Global.graphics.PreferredBackBufferHeight = viewSizeHeight;
+            Global.graphics.PreferredBackBufferWidth = Global.viewSizeWidth;  // Fenstermaße setzen
+            Global.graphics.PreferredBackBufferHeight = Global.viewSizeHeight;
             Global.graphics.ApplyChanges();
             //Global Camera init
-            Global.Camera = new Camera.Camera();
+            Global.GameCamera = new Camera.Camera();
             //Player
             _player = new Raupe.Raupe();
 
@@ -106,12 +103,14 @@ namespace Caterpillar
 
         protected override void Initialize()
         {
+            //this.IsMouseVisible = true;
             base.Initialize();        
         }
 
         protected override void LoadContent()
         {
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
+            _textureCursor = this.Content.Load<Texture2D>("Black");
             _player.Load();
         }
 
@@ -121,12 +120,11 @@ namespace Caterpillar
 
         protected override void Update(GameTime gameTime)
         {
-            //Camera Drehen Test, später anderst implementieren
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
                 ButtonState.Pressed || Keyboard.GetState().IsKeyDown(
                 Keys.Escape))
                 Exit();
-            Global.Camera.Update();
+            Global.GameCamera.Update();
 
             //Kistenspawnen
             if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
@@ -134,7 +132,7 @@ namespace Caterpillar
                  SpawnCrates(3);
             }
 
-            _player.Update(gameTime);
+            _player.Update(gameTime, Global.GameCamera);
 
             CheckPlayerCollision(_player, _crateArray);
 
@@ -145,16 +143,25 @@ namespace Caterpillar
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.ForestGreen);
-            _player.Draw(Global.Camera.viewMatrix, Global.Camera.projectionMatrix);
+
+            //3D Zeug
+            _player.Draw(Global.GameCamera.viewMatrix, Global.GameCamera.projectionMatrix);
 
             for (int j = 0; j < _maxCrateNum; j++)
             {
                 if (_crateArray[j] != null)
                 {
-                    _crateArray[j].Draw(Global.Camera.viewMatrix, Global.Camera.projectionMatrix);
+                    _crateArray[j].Draw(Global.GameCamera.viewMatrix, Global.GameCamera.projectionMatrix);
                 }
             }
+
+            //2D Zeug
+            Global.spriteBatch.Begin();
+            Global.spriteBatch.Draw(_textureCursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y));
+            Global.spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
 
             base.Draw(gameTime);
         }

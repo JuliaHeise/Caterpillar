@@ -14,20 +14,15 @@ namespace Caterpillar.Raupe
     {
         int _score;
         Head _head;
-       // Body _body;
-        //Stack<Body> _bodyPartStack;
         Body[] _bodyPartArray;
 
         public Raupe()
         {
             _score = 0;
             _head = new Head();
-           // _body = new Body(_head.GetPos());
-           // _bodyPartStack = new Stack<Body>();
             _bodyPartArray = new Body[40];
 
-            //test
-            // _bodyPartStack.Push(_body);
+
         }
 
         public  int CountEntries(Body[] array)
@@ -43,26 +38,9 @@ namespace Caterpillar.Raupe
             return _count;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Camera.Camera cam)
         {
-            _head.Update(gameTime);
-            /*for (int i = 0; i < _bodyPartStack.Count; i++)
-            {
-                Body _bodyPart = _bodyPartStack.ElementAt(i);
-                /*if ((_bodyPart.GetPos() - _bodyPart.GetAim()).Length() < _bodyPart.GetSpeed())
-           //     {
-            //        if (i == 0)
-           //             _bodyPart.SetAim(_head.GetPos()); //vorderster Part folgt Head
-           //         else
-           //             _bodyPart.SetAim(_bodyPartStack.ElementAt(_bodyPartStack.Count - 1).GetPos()); //andere Parts folgen Part vor ihnen
-          //      }
-
-                if (i == 0)
-                    _bodyPart.SetAim(_head.GetPos()); //vorderster Part folgt Head
-                else
-                    _bodyPart.SetAim(_bodyPartStack.ElementAt(0).GetPos()); //andere Parts folgen Part vor ihnen 
-                    
-                _bodyPart.Update(gameTime);*/
+            _head.Update(gameTime, cam);
 
             for (int i = 0; i < CountEntries(_bodyPartArray); i++)
             {
@@ -91,7 +69,6 @@ namespace Caterpillar.Raupe
 
         public void addToLength(int n)
         {
-            // Console.Out.WriteLine(_score);
             if (_score == 0)
             {
                 _bodyPartArray[0]= new Body(_head.GetPos(), _head.GetPos());
@@ -102,8 +79,6 @@ namespace Caterpillar.Raupe
                     _bodyPartArray[CountEntries(_bodyPartArray)-1].GetPos());
             }
 
-            //Console.Out.WriteLine(_score);
-
             _bodyPartArray[_score].Load();
             _score += n;
         }
@@ -111,7 +86,6 @@ namespace Caterpillar.Raupe
         public void Load()
         {
             _head.Load();
-            //_body.Load();
 
             for (int i = 0; i < CountEntries(_bodyPartArray); i++)
             {
@@ -123,7 +97,6 @@ namespace Caterpillar.Raupe
         public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
             _head.Draw(viewMatrix, projectionMatrix);
-            //_body.Draw(viewMatrix, projectionMatrix);
 
             for (int i = 0; i < CountEntries(_bodyPartArray); i++)
             {
