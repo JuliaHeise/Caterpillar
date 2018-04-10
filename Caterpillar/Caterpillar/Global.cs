@@ -17,5 +17,23 @@ namespace Caterpillar
         public static ContentManager ContentManager;
         public static Camera.Camera Camera;
 
+        public static double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
+        {
+            return (Math.Sqrt(Math.Pow(v2.X - v1.X, 2) + Math.Pow(v2.Y - v1.Y, 2)));
+        }
+
+        public static int CountNullEntries(MapObject.Crate[] array)
+        {
+            int _count = 0;
+            for (int j = 0; j < array.Length; j++)
+            {
+                if (array[j] == null)
+                {
+                    _count++;
+                }
+            }
+            return _count;
+        }
+
     }
 }

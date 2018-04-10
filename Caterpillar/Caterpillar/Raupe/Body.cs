@@ -16,13 +16,14 @@ namespace Caterpillar.Raupe
         private Vector3 _position;
         private Vector3 _direction;
         private Vector3 _aim;
-        private float _speed = 0.048f;
+        private float _modelSize = 0.4f;
+        private float _speed = 0.05f; //= 0.048f;
 
         //constructor
-        public Body(Vector3 pos)
+        public Body(Vector3 aimPos, Vector3 pos)
         {
-            _position = new Vector3(0.0f, -0.5f, 0.0f);
-            _aim = pos;
+            _position = pos;
+            _aim = aimPos;
             _direction =_aim - _position;
         }
 
@@ -34,7 +35,7 @@ namespace Caterpillar.Raupe
 
         public Vector3 GetPos()
         {
-            return this._position;
+            return _position;
         }
 
         public float GetSpeed()
@@ -81,7 +82,14 @@ namespace Caterpillar.Raupe
         {
             _direction = _aim - _position;
             _direction.Normalize();
-            _position += _direction * _speed;
+
+            if (Global.VectorDistance(_position, _aim) > _modelSize)
+            {
+                _position += _direction * _speed;
+            }
+           /* else
+                _position -= _direction * _speed;*/
+
         }
 
 

@@ -26,19 +26,6 @@ namespace Caterpillar
         public static MapObject.Crate[] _crateArray;
 
 
-        int CountNullEntries(MapObject.Crate[] array)
-        {
-            int _count = 0;
-            for (int j = 0; j < array.Length; j++)
-            {
-                if (array[j] == null)
-                {
-                    _count++;
-                }
-            }
-            return _count;
-        }
-
         void SpawnCrates(int n)
         {
             _rnd = new Random();
@@ -46,9 +33,9 @@ namespace Caterpillar
             int _xPos = 0;
             int _yPos = 0;
 
-            if (n+_crateArray.Length- CountNullEntries(_crateArray) > _maxCrateNum)
+            if (n+_crateArray.Length- Global.CountNullEntries(_crateArray) > _maxCrateNum)
             {
-                n = CountNullEntries(_crateArray);
+                n = Global.CountNullEntries(_crateArray);
             }
             
             for(int i = 0; i<n;i++)
@@ -74,10 +61,7 @@ namespace Caterpillar
 
 
         //Kollisionsfunktion
-        double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
-        {
-            return (Math.Sqrt(Math.Pow(v2.X - v1.X,2) + Math.Pow(v2.Y - v1.Y, 2)));
-        }
+
 
         void CheckPlayerCollision(Raupe.Raupe _Raupe, MapObject.Crate[] _CArray)
         {
@@ -85,7 +69,7 @@ namespace Caterpillar
             {
                 if (_CArray[i] != null)
                 {
-                    if (VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < _CrateSize)
+                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < _CrateSize)
                     {
                         _CArray[i] = null;
                         _Raupe.addToLength(1);
@@ -145,7 +129,7 @@ namespace Caterpillar
             Global.Camera.Update();
 
             //Kistenspawnen
-            if (CountNullEntries(_crateArray) == _maxCrateNum)
+            if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
             {
                  SpawnCrates(3);
             }
