@@ -129,7 +129,15 @@ namespace Caterpillar
             _mouseClickSkipCounter++;
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter>10) //Spiel starten/pausieren durch linksclick
             {
-                Global._gameActive = !Global._gameActive;
+                if (!_player._isAlive)
+                {
+                    _player.Respawn();
+                    _crateArray = new MapObject.Crate[_maxCrateNum];
+                }
+                else
+                {
+                    Global._gameActive = !Global._gameActive;
+                }
                 _mouseClickSkipCounter = 0;
             }
 

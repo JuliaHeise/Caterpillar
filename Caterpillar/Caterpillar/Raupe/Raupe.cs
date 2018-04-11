@@ -12,18 +12,45 @@ namespace Caterpillar.Raupe
 {
     class Raupe
     {
+        float _tailSize = 0.5f;
         int _score;
+        public bool _isAlive;
         Head _head;
         Body[] _bodyPartArray;
+        int _maxTailLength = 50;
 
         public Raupe()
         {
             _score = 0;
             _head = new Head();
-            _bodyPartArray = new Body[40];
-
-
+            _bodyPartArray = new Body[_maxTailLength];
+            _isAlive = true;
         }
+
+        public bool CheckPulse()
+        {
+            for (int j = 2; j < _bodyPartArray.Length; j++) //0 und 1 überspringen
+            {
+                if (_bodyPartArray[j] != null)
+                {
+                    if (Global.VectorDistance(this.getPosition(), _bodyPartArray[j].GetPos()) < _tailSize)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void Respawn()
+        {
+            _score = 0;
+            _head = new Head();
+            _bodyPartArray = new Body[_maxTailLength];
+            _isAlive = true;
+            Load();
+        }
+
 
         public  int CountEntries(Body[] array)
         {
@@ -40,6 +67,22 @@ namespace Caterpillar.Raupe
 
         public void Update(GameTime gameTime, Camera.Camera cam)
         {
+
+            _isAlive = CheckPulse();
+
+            //Tod oder Sieg abfangen
+            if (!_isAlive)
+            {
+                Global._gameActive = false;
+            }
+            else if (_score == _maxTailLength)
+            {
+                gameWon();
+                _isAlive = false;
+                Global._gameActive = false;
+            }
+
+
             _head.Update(gameTime, cam);
 
             for (int i = 0; i < CountEntries(_bodyPartArray); i++)
@@ -65,6 +108,16 @@ namespace Caterpillar.Raupe
         public Vector3 getPosition()
         {
             return _head.GetPos();
+        }
+
+        public void gameLost()
+        {
+            Global._gameActive = false;
+        }
+
+        public void gameWon()
+        {
+           
         }
 
         public void addToLength(int n)
