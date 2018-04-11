@@ -17,9 +17,11 @@ namespace Caterpillar.Camera
         public Matrix projectionMatrix;
         public Matrix viewMatrix;
         Matrix worldMatrix;
+        private int _prevMouseWheelValue;
 
         public Camera()
         {
+            _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
             camTarget = new Vector3(0f, 0f, 0f);
             camPosition = new Vector3(0f, 0f, -9);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
@@ -56,13 +58,15 @@ namespace Caterpillar.Camera
             }
 
             //Zoomen
-            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+            if (Mouse.GetState().ScrollWheelValue > _prevMouseWheelValue)
             {
-                camPosition.Z += 0.1f;
+                camPosition.Z += 0.5f;
+                _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+            if (Mouse.GetState().ScrollWheelValue < _prevMouseWheelValue)
             {
-                camPosition.Z -= 0.1f;
+                camPosition.Z -= 0.5f;
+                _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
             }
 
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget,

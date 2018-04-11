@@ -12,6 +12,7 @@ namespace Caterpillar
     {
         Random _rnd;
         Texture2D _textureCursor;
+        int _mouseClickSkipCounter=0;
 
 
         //Player
@@ -41,12 +42,12 @@ namespace Caterpillar
             for(int i = 0; i<n;i++)
             {
                // _rnd = new Random();
-                _xPos = 5 - _rnd.Next(0,11); // 5 - eine Zahl zwisches 0 und 10 --> Zahl von -5 bis 5
+                _xPos = 4 - _rnd.Next(0,8); 
 
                 for (int j = 0; j<_maxCrateNum; j++)
                 {
                    // _rnd = new Random();
-                    _yPos = 5 - _rnd.Next(0, 11); 
+                    _yPos = 4 - _rnd.Next(0, 8); 
 
 
                     if (_crateArray[j] == null)
@@ -124,17 +125,32 @@ namespace Caterpillar
                 ButtonState.Pressed || Keyboard.GetState().IsKeyDown(
                 Keys.Escape))
                 Exit();
-            Global.GameCamera.Update();
 
-            //Kistenspawnen
-            if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
+            _mouseClickSkipCounter++;
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter>10) //Spiel starten/pausieren durch linksclick
             {
-                 SpawnCrates(3);
+                Global._gameActive = !Global._gameActive;
+                _mouseClickSkipCounter = 0;
             }
 
-            _player.Update(gameTime, Global.GameCamera);
 
-            CheckPlayerCollision(_player, _crateArray);
+            Global.GameCamera.Update();
+
+            if (Global._gameActive) //läuft gerade eine Runde
+            {
+
+                //Kistenspawnen
+                if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
+                {
+                    SpawnCrates(3);
+                }
+
+                _player.Update(gameTime, Global.GameCamera);
+
+                CheckPlayerCollision(_player, _crateArray);
+            }
+
+
 
             base.Update(gameTime);
 

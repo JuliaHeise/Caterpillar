@@ -21,6 +21,7 @@ namespace Caterpillar.Raupe
         private Vector3 _direction;
         private float _speed = 0.05f;
 
+
         //constructor
         public Head()
         {
@@ -96,31 +97,12 @@ namespace Caterpillar.Raupe
             int _mouseY = -(int)((Mouse.GetState().Position.Y- _halfHeight)) + (int)cam.camPosition.Y*_camCorrY;
             float _scale = 87.5f / (-cam.camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
 
-            //Console.Out.WriteLine("Cax "+ cam.camPosition.X); //10.8 = 1/2 width, 0 = 0 
-            //Console.Out.WriteLine("Cax " + cam.camPosition.Y); //7.5 = 1/2 height, 0 = 0
-
-
-            _direction += new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f);
-           // Console.Out.WriteLine(_direction);
-
-
-            /*
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            Console.Out.WriteLine(Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f)));
+            
+            if (Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f)) <60)
             {
-                _direction += new Vector3(0.0f, 1.0f, 0.0f);
+                _direction += new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f);
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                _direction += new Vector3(1.0f, 0.0f, 0.0f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                _direction  += new Vector3(0.0f, -1.0f, 0.0f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                _direction += new Vector3(-1.0f, 0.0f, 0.0f);
-            }*/
 
 
             _direction.Normalize();

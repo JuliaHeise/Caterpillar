@@ -16,12 +16,20 @@ namespace Caterpillar
         public static SpriteBatch spriteBatch;
         public static ContentManager ContentManager;
         public static Camera.Camera GameCamera;
+
+        public static bool _gameActive = false;
+
         public static int viewSizeWidth = 1600; //Breite des Spielfensters
         public static int viewSizeHeight = 900;
 
         public static double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
         {
             return (Math.Sqrt(Math.Pow(v2.X - v1.X, 2) + Math.Pow(v2.Y - v1.Y, 2)));
+        }
+
+        public static double VectorAngle(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
+        {
+            return (Math.Acos( (v1.X*v2.X + v1.Y*v2.Y)/(v1.Length() * v2.Length()) )) * 360 / (2 * Math.PI);
         }
 
         public static int CountNullEntries(MapObject.Crate[] array)
