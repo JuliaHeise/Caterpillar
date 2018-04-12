@@ -126,6 +126,32 @@ namespace Caterpillar
                 Keys.Escape))
                 Exit();
 
+
+            //Kamera
+            if(Keyboard.GetState().IsKeyDown(Keys.LeftShift) && _mouseClickSkipCounter > 10)
+            {
+                Global._freeCam = !Global._freeCam;
+                _mouseClickSkipCounter = 0;
+            }
+
+            if(Global._freeCam)
+            {
+                Global.GameCamera.Update();
+            }
+            else
+            {/*
+                if (!Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.A)
+                    && !Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.D))
+                {*/
+                    Global.GameCamera.camTarget = _player.getPosition();
+                    Global.GameCamera.camPosition = new Vector3(_player.getPosition().X, _player.getPosition().Y, Global.GameCamera.camPosition.Z);
+               // }
+                Global.GameCamera.Update();
+            }
+
+
+
+
             _mouseClickSkipCounter++;
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter>10) //Spiel starten/pausieren durch linksclick
             {
@@ -141,9 +167,6 @@ namespace Caterpillar
                 _mouseClickSkipCounter = 0;
             }
 
-
-            Global.GameCamera.Update();
-
             if (Global._gameActive) //läuft gerade eine Runde
             {
 
@@ -153,7 +176,7 @@ namespace Caterpillar
                     SpawnCrates(3);
                 }
 
-                _player.Update(gameTime, Global.GameCamera);
+                _player.Update(gameTime);
 
                 CheckPlayerCollision(_player, _crateArray);
             }

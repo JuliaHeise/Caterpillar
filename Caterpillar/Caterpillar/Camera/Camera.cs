@@ -12,7 +12,7 @@ namespace Caterpillar.Camera
     public class Camera
     {
         //3D Camera
-        Vector3 camTarget;
+        public Vector3 camTarget;
         public Vector3 camPosition;
         public Matrix projectionMatrix;
         public Matrix viewMatrix;
@@ -60,12 +60,14 @@ namespace Caterpillar.Camera
             //Zoomen
             if (Mouse.GetState().ScrollWheelValue > _prevMouseWheelValue)
             {
+                if(camPosition.Z<-2)
                 camPosition.Z += 0.5f;
                 _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
             }
             if (Mouse.GetState().ScrollWheelValue < _prevMouseWheelValue)
             {
-                camPosition.Z -= 0.5f;
+                if (camPosition.Z > -18)
+                    camPosition.Z -= 0.5f;
                 _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
             }
 

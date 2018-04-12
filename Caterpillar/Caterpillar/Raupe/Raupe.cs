@@ -65,7 +65,7 @@ namespace Caterpillar.Raupe
             return _count;
         }
 
-        public void Update(GameTime gameTime, Camera.Camera cam)
+        public void Update(GameTime gameTime)
         {
 
             _isAlive = CheckPulse();
@@ -83,7 +83,7 @@ namespace Caterpillar.Raupe
             }
 
 
-            _head.Update(gameTime, cam);
+            _head.Update(gameTime);
 
             for (int i = 0; i < CountEntries(_bodyPartArray); i++)
             {
