@@ -17,14 +17,18 @@ namespace Caterpillar.Raupe
         private Vector3 _direction;
         private Vector3 _aim;
         private float _modelSize = 0.4f;
+        private float _inispeed = 0.05f; //= 0.048f;
         private float _speed = 0.05f; //= 0.048f;
+        private bool _fresh;
+        private int _ageCounter;
 
         //constructor
         public Body(Vector3 aimPos, Vector3 pos)
         {
             _position = pos;
             _aim = aimPos;
-            _direction =_aim - _position;
+            _direction = _aim - _position;
+            _fresh = true;
         }
 
         //Getter und Setter
@@ -79,7 +83,24 @@ namespace Caterpillar.Raupe
 
         //Update
         public void Update(GameTime gameTime)
-        {
+        {/*
+            if (Global.VectorAngle(_direction, _aim - _position) < 10 || _fresh)
+            {
+                _speed = _inispeed;
+                _direction = _aim - _position;
+                // _direction.Normalize();
+            }
+            else
+                _speed=0;
+
+            _ageCounter++;
+
+            if(_ageCounter>20)
+            _fresh = false;
+
+            _direction.Normalize();*/
+
+
             _direction = _aim - _position;
             _direction.Normalize();
 

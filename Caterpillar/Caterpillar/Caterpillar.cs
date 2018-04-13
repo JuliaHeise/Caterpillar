@@ -181,6 +181,18 @@ namespace Caterpillar
                 CheckPlayerCollision(_player, _crateArray);
             }
 
+            //Kisten drehen
+            for(int h = 0; h < _crateArray.Length; h++)
+            {
+                if(_crateArray[h]!=null)
+                {
+                    _crateArray[h].Update(gameTime);
+                }
+            }
+
+            if(_crateArray[0]!=null)
+            Console.Out.WriteLine(_crateArray[0]._direction);
+
 
 
             base.Update(gameTime);

@@ -12,6 +12,7 @@ namespace Caterpillar
 {
     public class Global : Game
     {
+        public static Random _rndCratePhase = new Random();
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static ContentManager ContentManager;
