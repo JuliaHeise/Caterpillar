@@ -25,7 +25,7 @@ namespace Caterpillar.Raupe
         public Raupe()
         {
             _head = new Head();
-            _bodyPartArray = new ArrayList(_maxTailLength);
+            _bodyPartArray = new ArrayList();
             Init();
         }
         public void Load()
@@ -81,12 +81,9 @@ namespace Caterpillar.Raupe
         {
             for (int j = 2; j < _bodyPartArray.Count; j++) //0 und 1 überspringen
             {
-                if (_bodyPartArray[j] != null)
+                if (Global.VectorDistance(getPosition(), ((Body)_bodyPartArray[j]).GetPos()) < _tailSize)
                 {
-                    if (Global.VectorDistance(this.getPosition(), ((Body)_bodyPartArray[j]).GetPos()) < _tailSize)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             return true;
