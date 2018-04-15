@@ -26,7 +26,6 @@ namespace Caterpillar
         public static int _maxCrateNum = 8;
         public static MapObject.Crate[] _crateArray;
 
-
         void SpawnCrates(int n)
         {
             _rnd = new Random();
@@ -60,10 +59,7 @@ namespace Caterpillar
             }
         }
 
-
         //Kollisionsfunktion
-
-
         void CheckPlayerCollision(Raupe.Raupe _Raupe, MapObject.Crate[] _CArray)
         {
             for(int i = 0; i<_CArray.Length; i++)
@@ -78,10 +74,6 @@ namespace Caterpillar
                 }
             }
         }
-
-
-
-
 
         public Caterpillar()
         {
@@ -143,8 +135,8 @@ namespace Caterpillar
                 if (!Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.A)
                     && !Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.D))
                 {*/
-                    Global.GameCamera.camTarget = _player.getPosition();
-                    Global.GameCamera.camPosition = new Vector3(_player.getPosition().X, _player.getPosition().Y, Global.GameCamera.camPosition.Z);
+                    Global.GameCamera._camTarget = _player.getPosition();
+                    Global.GameCamera._camPosition = new Vector3(_player.getPosition().X, _player.getPosition().Y, Global.GameCamera._camPosition.Z);
                // }
                 Global.GameCamera.Update();
             }
@@ -206,13 +198,13 @@ namespace Caterpillar
             GraphicsDevice.Clear(Color.ForestGreen);
 
             //3D Zeug
-            _player.Draw(Global.GameCamera.viewMatrix, Global.GameCamera.projectionMatrix);
+            _player.Draw(Global.GameCamera._viewMatrix, Global.GameCamera._projectionMatrix);
 
             for (int j = 0; j < _maxCrateNum; j++)
             {
                 if (_crateArray[j] != null)
                 {
-                    _crateArray[j].Draw(Global.GameCamera.viewMatrix, Global.GameCamera.projectionMatrix);
+                    _crateArray[j].Draw(Global.GameCamera._viewMatrix, Global.GameCamera._projectionMatrix);
                 }
             }
 

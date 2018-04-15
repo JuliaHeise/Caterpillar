@@ -17,25 +17,48 @@ namespace Caterpillar.MapObject
         int _phase;
         float _spinSpeed = 0.01f;
 
+        //Initialize
         public Crate(Vector3 pos)
         {
 
             _position = pos;
+            Init();
+            Load();
+        }
+        public void Load()
+        {
             _modelBody = Global.ContentManager.Load<Model>("Tail1");
+        }
+        public void Init()
+        {
             _direction = new Vector3(0, 1, 0);
-            _phase = (int)Global._rndCratePhase.Next(0,3);
+            _phase = (int)Global._rndCratePhase.Next(0, 3);
         }
 
-        public void Update(GameTime gameTime)
-        {/*
-            if (_direction.X < 0.006)
-                _direction.X = 0;
+        //Draw
+        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        {
 
-            if (_direction.X > 0.96)
-                _direction.X = 1;
-            if (_direction.Y > 0.96)
-                _direction.Y = 1;*/
+            foreach (ModelMesh mesh in _modelBody.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.AmbientLightColor = new Vector3(0, 0.5f, 0);
+                    effect.View = viewMatrix;
+                    effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
+                    effect.Projection = projectionMatrix;
+                }
+                mesh.Draw();
+            }
 
+        }
+
+        //Getter and Setter
+
+        //Additional Functions
+        public void Rotate()
+        {
             Vector3 _directionNorm;
 
             _directionNorm = _direction;
@@ -86,27 +109,12 @@ namespace Caterpillar.MapObject
                 }
             }
 
-
-            //_direction.Normalize();
-
         }
 
-        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        //Use Additional Functions to Compute Update
+        public void Update(GameTime gameTime)
         {
-
-            foreach (ModelMesh mesh in _modelBody.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(0, 0.5f, 0);
-                    effect.View = viewMatrix;
-                    effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
-                    effect.Projection = projectionMatrix;
-                }
-                mesh.Draw();
-            }
-
-        }
+            Rotate();
+        }        
     }
 }

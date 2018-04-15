@@ -82,22 +82,22 @@ namespace Caterpillar.Raupe
             {
                 int _camCorrX;
 
-                if (Global.GameCamera.camPosition.X == 0)
+                if (Global.GameCamera._camPosition.X == 0)
                     _camCorrX = 0;
                 else
                     _camCorrX = (int)(_halfWidth / 10.8);
 
                 int _camCorrY;
 
-                if (Global.GameCamera.camPosition.Y == 0)
+                if (Global.GameCamera._camPosition.Y == 0)
                     _camCorrY = 0;
                 else
                     _camCorrY = (int)(_halfWidth / 7.5);
 
 
-                 _mouseX = -(int)((Mouse.GetState().Position.X - _halfWidth)) + (int)Global.GameCamera.camPosition.X * _camCorrX;
-                 _mouseY = -(int)((Mouse.GetState().Position.Y - _halfHeight)) + (int)Global.GameCamera.camPosition.Y * _camCorrY;
-                float _scale = 87.5f / (-Global.GameCamera.camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
+                 _mouseX = -(int)((Mouse.GetState().Position.X - _halfWidth)) + (int)Global.GameCamera._camPosition.X * _camCorrX;
+                 _mouseY = -(int)((Mouse.GetState().Position.Y - _halfHeight)) + (int)Global.GameCamera._camPosition.Y * _camCorrY;
+                float _scale = 87.5f / (-Global.GameCamera._camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
 
                 // Console.Out.WriteLine(Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f)));
 
