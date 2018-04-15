@@ -73,7 +73,7 @@ namespace Caterpillar
                     if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < _CrateSize)
                     {
                         _CArray[i] = null;
-                        _Raupe.addToLength(1);
+                        _Raupe.AddToLength(1);
                     }
                 }
             }

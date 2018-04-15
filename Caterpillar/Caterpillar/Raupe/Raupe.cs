@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using ArrayList = System.Collections.ArrayList;
+
 namespace Caterpillar.Raupe
 {
     class Raupe
@@ -16,24 +18,72 @@ namespace Caterpillar.Raupe
         int _score;
         public bool _isAlive;
         Head _head;
-        Body[] _bodyPartArray;
+        ArrayList _bodyPartArray;
         int _maxTailLength = 50;
 
+        //Initialize "Raupe" 
         public Raupe()
         {
-            _score = 0;
             _head = new Head();
-            _bodyPartArray = new Body[_maxTailLength];
+            _bodyPartArray = new ArrayList(_maxTailLength);
+            Init();
+        }
+        public void Load()
+        {
+            _head.Load();
+
+            for (int i = 0; i < _bodyPartArray.Count; i++)
+            {
+                ((Body)_bodyPartArray[i]).Load();
+            }
+
+        }
+        public void Init()
+        {
+            _score = 0;
+            _head.Init();
+            _bodyPartArray.Clear();
             _isAlive = true;
+
+        }
+        public void Respawn()
+        {
+            Init();
         }
 
+        //Getter and Setter
+        public Vector3 getPosition()
+        {
+            return _head.GetPos();
+        }
+        public void gameLost()
+        {
+            Global._gameActive = false;
+        }
+        public void gameWon()
+        {
+
+        }
+
+        //Draw
+        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        {
+            _head.Draw(viewMatrix, projectionMatrix);
+
+            for (int i = 0; i < _bodyPartArray.Count; i++)
+            {
+                ((Body)_bodyPartArray[i]).Draw(viewMatrix, projectionMatrix);
+            }
+        }
+
+        //Additional functions 
         public bool CheckPulse()
         {
-            for (int j = 2; j < _bodyPartArray.Length; j++) //0 und 1 überspringen
+            for (int j = 2; j < _bodyPartArray.Count; j++) //0 und 1 überspringen
             {
                 if (_bodyPartArray[j] != null)
                 {
-                    if (Global.VectorDistance(this.getPosition(), _bodyPartArray[j].GetPos()) < _tailSize)
+                    if (Global.VectorDistance(this.getPosition(), ((Body)_bodyPartArray[j]).GetPos()) < _tailSize)
                     {
                         return false;
                     }
@@ -41,30 +91,23 @@ namespace Caterpillar.Raupe
             }
             return true;
         }
-
-        public void Respawn()
+        public void AddToLength(int n)
         {
-            _score = 0;
-            _head = new Head();
-            _bodyPartArray = new Body[_maxTailLength];
-            _isAlive = true;
-            Load();
-        }
-
-
-        public  int CountEntries(Body[] array)
-        {
-            int _count = 0;
-            for (int j = 0; j < array.Length; j++)
+            if (_score == 0)
             {
-                if (array[j] != null)
-                {
-                    _count++;
-                }
+                _bodyPartArray.Add(new Body(_head.GetPos(), _head.GetPos()));
             }
-            return _count;
-        }
+            else
+            {
+                _bodyPartArray.Add(new Body(((Body)_bodyPartArray[_bodyPartArray.Count - 1]).GetPos(),
+                    ((Body)_bodyPartArray[_bodyPartArray.Count - 1]).GetPos()));
+            }
 
+            ((Body)_bodyPartArray[_score]).Load();
+            _score += n;
+        }
+        
+        //use Additional functions to calculate the Update()
         public void Update(GameTime gameTime)
         {
 
@@ -85,76 +128,24 @@ namespace Caterpillar.Raupe
 
             _head.Update(gameTime);
 
-            for (int i = 0; i < CountEntries(_bodyPartArray); i++)
+            for (int i = 0; i < _bodyPartArray.Count; i++)
             {
                 if (_bodyPartArray[i] == null)
                     break;
                 else
                 {
-                    Body _bodyPart = _bodyPartArray[i];
+                    Body _bodyPart = (Body)_bodyPartArray[i];
 
                     if (i == 0)
                         _bodyPart.SetAim(_head.GetPos()); //vorderster Part folgt Head
                     else
-                        _bodyPart.SetAim(_bodyPartArray[i - 1].GetPos()); //andere Parts folgen Part vor ihnen 
+                        _bodyPart.SetAim(((Body)_bodyPartArray[i - 1]).GetPos()); //andere Parts folgen Part vor ihnen 
 
                     _bodyPart.Update(gameTime);
                 }
 
             }
 
-        }
-
-        public Vector3 getPosition()
-        {
-            return _head.GetPos();
-        }
-
-        public void gameLost()
-        {
-            Global._gameActive = false;
-        }
-
-        public void gameWon()
-        {
-           
-        }
-
-        public void addToLength(int n)
-        {
-            if (_score == 0)
-            {
-                _bodyPartArray[0]= new Body(_head.GetPos(), _head.GetPos());
-            }
-            else
-            {
-                _bodyPartArray[_score] = new Body(_bodyPartArray[CountEntries(_bodyPartArray)-1].GetPos(), 
-                    _bodyPartArray[CountEntries(_bodyPartArray)-1].GetPos());
-            }
-
-            _bodyPartArray[_score].Load();
-            _score += n;
-        }
-
-        public void Load()
-        {
-            _head.Load();
-
-            for (int i = 0; i < CountEntries(_bodyPartArray); i++)
-            {
-                _bodyPartArray[i].Load();
-            }
-
-        }
-
-        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
-        {
-            _head.Draw(viewMatrix, projectionMatrix);
-
-            for (int i = 0; i < CountEntries(_bodyPartArray); i++)
-            {
-                _bodyPartArray[i].Draw(viewMatrix, projectionMatrix);
-            }
         }
 
     }

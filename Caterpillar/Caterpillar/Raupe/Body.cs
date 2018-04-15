@@ -17,7 +17,7 @@ namespace Caterpillar.Raupe
         private Vector3 _direction;
         private Vector3 _aim;
         private float _modelSize = 0.4f;
-        private float _inispeed = 0.05f; //= 0.048f;
+        private float _initspeed = 0.05f; //= 0.048f;
         private float _speed = 0.05f; //= 0.048f;
         private bool _fresh;
         private int _ageCounter;
@@ -27,42 +27,42 @@ namespace Caterpillar.Raupe
         {
             _position = pos;
             _aim = aimPos;
+            Init();
+
+        }
+        public void Init()
+        {
             _direction = _aim - _position;
             _fresh = true;
         }
-
+        public void Load()
+        {
+            _modelBody = Global.ContentManager.Load<Model>("Tail1");
+        }
+        
         //Getter und Setter
         public Vector3 GetDir()
         {
-            return this._direction;
+            return _direction;
         }
-
         public Vector3 GetPos()
         {
             return _position;
         }
-
         public float GetSpeed()
         {
             return _speed;
         }
-
         public Vector3 GetAim()
         {
             return _aim;
         }
-
-
         public void SetAim(Vector3 pos)
         {
             _aim = pos;
         }
 
-        public void Load()
-        {
-            _modelBody = Global.ContentManager.Load<Model>("Tail1");
-        }
-
+        //Draw
         public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
 
@@ -81,7 +81,9 @@ namespace Caterpillar.Raupe
 
         }
 
-        //Update
+        //Additional Functions
+
+        //Use Additional Functions to compute Update()
         public void Update(GameTime gameTime)
         {/*
             if (Global.VectorAngle(_direction, _aim - _position) < 10 || _fresh)

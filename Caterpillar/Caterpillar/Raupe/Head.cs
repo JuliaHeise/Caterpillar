@@ -16,14 +16,20 @@ namespace Caterpillar.Raupe
         //Attribute
         Model _modelHead;
         private Vector3 _position;
-        public Vector3 _prevPos;
-        public Vector3 _prevDir;
         private Vector3 _direction;
         private float _speed = 0.05f;
 
 
-        //constructor
+        //Initialize
         public Head()
+        {
+            Init();
+        }
+        public void Load()
+        {
+            _modelHead = Global.ContentManager.Load<Model>("HeadV1");
+        }
+        public void Init()
         {
             _position = new Vector3(0.0f, 0.0f, 0.0f);
             _direction = new Vector3(0.0f, 1.0f, 0.0f);
@@ -32,24 +38,18 @@ namespace Caterpillar.Raupe
         //Getter und Setter
         public Vector3 GetDir()
         {
-            return this._direction;
+            return _direction;
         }
-
         public Vector3 GetPos()
         {
-            return this._position;
+            return _position;
         }
-
         public void SetSpeed(float newSpeed)
         {
-            this._speed = newSpeed;
+            _speed = newSpeed;
         }
 
-        public void Load()
-        {
-            _modelHead = Global.ContentManager.Load<Model>("HeadV1");
-        }
-
+        //Draw
         public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {         
 
@@ -66,13 +66,10 @@ namespace Caterpillar.Raupe
                 mesh.Draw();
             }
         }
-        public void Previous()
-        {
-            _prevDir = _direction;
-            _prevPos = _position;
-        }
 
-        //Update
+        //Additional functions
+    
+        //use Additional functions to compute Update()
         public void Update(GameTime gameTime)
         {
             int _halfWidth = (int)(0.5 * Global.viewSizeWidth);
@@ -120,10 +117,6 @@ namespace Caterpillar.Raupe
                     _direction += new Vector3((_mouseX), (_mouseY), 0.0f);
                 }
             }
-
-
-
-
 
             _direction.Normalize();
             _position += _direction * _speed;    
