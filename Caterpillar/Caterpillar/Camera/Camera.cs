@@ -64,29 +64,27 @@ namespace Caterpillar.Camera
         {
             if(Global._freeCam)
             {
-                           if (Keyboard.GetState().IsKeyDown(Keys.D))
-                                {
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
                     _camPosition.X -= 0.1f;
                     _camTarget.X -= 0.1f;
-                                }
-                           if (Keyboard.GetState().IsKeyDown(Keys.A))
-                                {
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
                     _camPosition.X += 0.1f;
                     _camTarget.X += 0.1f;
-                                }
-                            if (Keyboard.GetState().IsKeyDown(Keys.S))
-                                {
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
                     _camPosition.Y -= 0.1f;
                     _camTarget.Y -= 0.1f;
-                                }
-                            if (Keyboard.GetState().IsKeyDown(Keys.W))
-                                {
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
                     _camPosition.Y += 0.1f;
                     _camTarget.Y += 0.1f;
-                                }
+                }
             }
-
-
 
             //Zoomen
             if (Mouse.GetState().ScrollWheelValue > _prevMouseWheelValue)
