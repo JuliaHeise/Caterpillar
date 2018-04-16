@@ -102,16 +102,8 @@ namespace Caterpillar
                 }
             }
         }
-
-        //Draw
-        protected override void Draw(GameTime gameTime)
+        void DrawCrates()
         {
-
-            GraphicsDevice.Clear(Color.ForestGreen);
-
-            //3D Zeug
-            _player.Draw();
-
             for (int j = 0; j < _maxCrateNum; j++)
             {
                 if (_crateArray[j] != null)
@@ -119,25 +111,16 @@ namespace Caterpillar
                     _crateArray[j].Draw();
                 }
             }
-
-            //2D Zeug
+        }
+        void DrawSprites()
+        {
             Global.spriteBatch.Begin();
             Global.spriteBatch.Draw(_textureCursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y));
             Global.spriteBatch.End();
             GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
-
-            base.Draw(gameTime);
         }
-
-        //Update
-        protected override void Update(GameTime gameTime)
+        void UpdateCamera()
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
-                ButtonState.Pressed || Keyboard.GetState().IsKeyDown(
-                Keys.Escape))
-                Exit();
-
-
             //Kamera
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && _mouseClickSkipCounter > 10)
             {
@@ -160,9 +143,20 @@ namespace Caterpillar
                 Global.GameCamera.Update();
             }
 
-
-
-
+        }
+        void RotateCrates(GameTime gameTime)
+        {
+            //Kisten drehen
+            for (int h = 0; h < _crateArray.Length; h++)
+            {
+                if (_crateArray[h] != null)
+                {
+                    _crateArray[h].Update(gameTime);
+                }
+            }
+        }
+        void CheckMouseClick()
+        {
             _mouseClickSkipCounter++;
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter > 10) //Spiel starten/pausieren durch linksclick
             {
@@ -180,33 +174,53 @@ namespace Caterpillar
                 _mouseClickSkipCounter = 0;
             }
 
+        }
+        void UpdateWorld(GameTime gameTime)
+        {
+
+            //Kistenspawnen
+            if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
+            {
+                SpawnCrates(3);
+            }
+
+            _player.Update(gameTime);
+
+            CheckPlayerCollision(_player, _crateArray);
+
+        }
+
+        //Draw
+        protected override void Draw(GameTime gameTime)
+        {
+
+            GraphicsDevice.Clear(Color.ForestGreen);
+
+            //3D Zeug
+            _player.Draw();
+            DrawCrates();
+
+            //2D Zeug
+            DrawSprites();
+
+            base.Draw(gameTime);
+        }
+
+        //Update
+        protected override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
+            UpdateCamera();
+            CheckMouseClick();
+
             if (Global._gameActive) //läuft gerade eine Runde
             {
-
-                //Kistenspawnen
-                if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
-                {
-                    SpawnCrates(3);
-                }
-
-                _player.Update(gameTime);
-
-                CheckPlayerCollision(_player, _crateArray);
+                UpdateWorld(gameTime);
             }
 
-            //Kisten drehen
-            for (int h = 0; h < _crateArray.Length; h++)
-            {
-                if (_crateArray[h] != null)
-                {
-                    _crateArray[h].Update(gameTime);
-                }
-            }
-
-            if (_crateArray[0] != null)
-                Console.Out.WriteLine(_crateArray[0]._direction);
-
-
+            RotateCrates(gameTime);
 
             base.Update(gameTime);
 

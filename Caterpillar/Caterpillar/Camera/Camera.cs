@@ -40,7 +40,11 @@ namespace Caterpillar.Camera
         }
 
         //Getter und Setter
-  
+        void SetViewMatrix()
+        {
+            _viewMatrix = Matrix.CreateLookAt(_camPosition, _camTarget,
+             Vector3.Up);
+        }
        
         //Additional Functions
         private void ZoomIn()
@@ -57,6 +61,30 @@ namespace Caterpillar.Camera
             _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
 
         }
+        private void ControlFreeCam()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                _camPosition.X -= 0.1f;
+                _camTarget.X -= 0.1f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                _camPosition.X += 0.1f;
+                _camTarget.X += 0.1f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                _camPosition.Y -= 0.1f;
+                _camTarget.Y -= 0.1f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                _camPosition.Y += 0.1f;
+                _camTarget.Y += 0.1f;
+            }
+
+        }
 
 
         //Use Additional Functions to Compute Update()
@@ -64,26 +92,7 @@ namespace Caterpillar.Camera
         {
             if(Global._freeCam)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    _camPosition.X -= 0.1f;
-                    _camTarget.X -= 0.1f;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    _camPosition.X += 0.1f;
-                    _camTarget.X += 0.1f;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    _camPosition.Y -= 0.1f;
-                    _camTarget.Y -= 0.1f;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.W))
-                {
-                    _camPosition.Y += 0.1f;
-                    _camTarget.Y += 0.1f;
-                }
+                ControlFreeCam();
             }
 
             //Zoomen
@@ -97,8 +106,7 @@ namespace Caterpillar.Camera
                 ZoomOut();
             }
 
-            _viewMatrix = Matrix.CreateLookAt(_camPosition, _camTarget,
-                         Vector3.Up);
+            SetViewMatrix();
         }
 
     }
