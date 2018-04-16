@@ -27,7 +27,7 @@ namespace Caterpillar.MapObject
         }
         public void Load()
         {
-            _modelBody = Global.ContentManager.Load<Model>("Tail1");
+            _modelBody = Global.ContentManager.Load<Model>("Food1V3");
         }
         public void Init()
         {

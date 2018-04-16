@@ -62,6 +62,32 @@ namespace Caterpillar.Camera
         //Use Additional Functions to Compute Update()
         public void Update()
         {
+            if(Global._freeCam)
+            {
+                           if (Keyboard.GetState().IsKeyDown(Keys.D))
+                                {
+                    _camPosition.X -= 0.1f;
+                    _camTarget.X -= 0.1f;
+                                }
+                           if (Keyboard.GetState().IsKeyDown(Keys.A))
+                                {
+                    _camPosition.X += 0.1f;
+                    _camTarget.X += 0.1f;
+                                }
+                            if (Keyboard.GetState().IsKeyDown(Keys.S))
+                                {
+                    _camPosition.Y -= 0.1f;
+                    _camTarget.Y -= 0.1f;
+                                }
+                            if (Keyboard.GetState().IsKeyDown(Keys.W))
+                                {
+                    _camPosition.Y += 0.1f;
+                    _camTarget.Y += 0.1f;
+                                }
+            }
+
+
+
             //Zoomen
             if (Mouse.GetState().ScrollWheelValue > _prevMouseWheelValue)
             {
