@@ -87,7 +87,7 @@
 /processorParam:TextureFormat=Color
 /build:Food1V2.png
 
-#begin Food1V3.dae
+#begin Food1v4.dae
 /importer:OpenAssetImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -104,5 +104,5 @@
 /processorParam:Scale=0.6
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:Food1V3.dae
+/build:Food1v4.dae
 
