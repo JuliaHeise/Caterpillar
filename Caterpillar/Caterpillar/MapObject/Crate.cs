@@ -39,7 +39,7 @@ namespace Caterpillar.MapObject
         public void Init()
         {
             _direction = new Vector3(Global._rndCratePhase.Next(0, 2)-1, Global._rndCratePhase.Next(0, 2) - 1, 0);
-            _phase = (int)Global._rndCratePhase.Next(0, 3);
+            _phase = (int)Global._rndCratePhase.Next(0, 4);
         }
 
         //Draw
@@ -119,7 +119,7 @@ namespace Caterpillar.MapObject
         }
 
         public void KeepWarm() //hält das Model in bewegung damit Monogame nicht daran denkt es auszublenden
-        {/*
+        {
             int _justKeepWarm = 100;
 
             if (_phase == 0)
@@ -166,7 +166,7 @@ namespace Caterpillar.MapObject
                     _phase = 0;
                 }
             }
-            */
+            
 
         }
 
