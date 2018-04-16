@@ -210,13 +210,13 @@ namespace Caterpillar
             GraphicsDevice.Clear(Color.ForestGreen);
 
             //3D Zeug
-            _player.Draw(Global.GameCamera._viewMatrix, Global.GameCamera._projectionMatrix);
+            _player.Draw();
 
             for (int j = 0; j < _maxCrateNum; j++)
             {
                 if (_crateArray[j] != null)
                 {
-                    _crateArray[j].Draw(Global.GameCamera._viewMatrix, Global.GameCamera._projectionMatrix);
+                    _crateArray[j].Draw();
                 }
             }
 
