@@ -20,13 +20,13 @@ namespace Caterpillar
 
         //Konstanten
 
-        float _CrateSize = 0.5f;
+        float _InitialCrateDistance = 0.5f;
 
         //Kistenspawnfunktion
-        public static int _maxCrateNum = 8;
+        public static int _maxCrateNum = 50;
         public static MapObject.Crate[] _crateArray;
 
-        void SpawnCrates(int n)
+        void SpawnCrates(int n, float _cSize)
         {
             _rnd = new Random();
 
@@ -41,18 +41,18 @@ namespace Caterpillar
             for(int i = 0; i<n;i++)
             {
                // _rnd = new Random();
-                _xPos = 4 - _rnd.Next(0,8); 
+                _xPos = (int)(0.5* Global.gameSizeWidth) - _rnd.Next(0,Global.gameSizeWidth); 
 
                 for (int j = 0; j<_maxCrateNum; j++)
                 {
                    // _rnd = new Random();
-                    _yPos = 4 - _rnd.Next(0, 8); 
+                    _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight); 
 
 
                     if (_crateArray[j] == null)
                     {
                         
-                        _crateArray[j] = new MapObject.Crate(new Vector3(_xPos, _yPos, 0));
+                        _crateArray[j] = new MapObject.Crate(new Vector3(_xPos, _yPos, 0), _cSize);
                         break;
                     }
                 }
@@ -66,10 +66,18 @@ namespace Caterpillar
             {
                 if (_CArray[i] != null)
                 {
-                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < _CrateSize)
+                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5*_InitialCrateDistance+ 0.5 * _InitialCrateDistance * _Raupe._scale)
                     {
-                        _CArray[i] = null;
-                        _Raupe.AddToLength(1);
+                        if (Global._gamePhase >= _CArray[i]._size - 1)
+                        {
+                            _CArray[i] = null;
+                            _Raupe.AddToLength(1);
+                        }
+                        else
+                        {
+                            _Raupe._isAlive = false;
+                            Global._gameActive = false;
+                        }
                     }
                 }
             }
@@ -153,6 +161,7 @@ namespace Caterpillar
                     _crateArray = new MapObject.Crate[_maxCrateNum];
                     Global._minCameraZoom = -18;
                     Global._maxCameraZoom = -2;
+                    Global.GameCamera._camPosition.Z = -9;
                 }
                 else
                 {
@@ -167,7 +176,9 @@ namespace Caterpillar
                 //Kistenspawnen
                 if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
                 {
-                    SpawnCrates(3);
+                    SpawnCrates(15, 1);
+                    SpawnCrates(15, 2);
+                    SpawnCrates(5, 3);
                 }
 
                 _player.Update(gameTime);
@@ -184,10 +195,9 @@ namespace Caterpillar
                 }
             }
 
-            if(_crateArray[0]!=null)
-            Console.Out.WriteLine(_crateArray[0]._direction);
 
 
+            Global._gamePhase = (int)(_player._score / 10);
 
             base.Update(gameTime);
 

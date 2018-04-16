@@ -16,22 +16,28 @@ namespace Caterpillar.MapObject
         public Vector3 _direction;
         int _phase;
         float _spinSpeed = 0.01f;
+        public float _size;
 
         //Initialize
-        public Crate(Vector3 pos)
+        public Crate(Vector3 pos, float _size)
         {
-
+            this._size = _size;
             _position = pos;
             Init();
             Load();
         }
         public void Load()
         {
-            _modelBody = Global.ContentManager.Load<Model>("Food1V4");
+            if(_size<=1)
+            _modelBody = Global.ContentManager.Load<Model>("needlev3"); //Nadel
+            else if (_size <= 2)
+                _modelBody = Global.ContentManager.Load<Model>("Food1v4"); //Blatt
+            else if (_size <= 3)
+                _modelBody = Global.ContentManager.Load<Model>("Branchv4"); //Ast
         }
         public void Init()
         {
-            _direction = new Vector3(0, 1, 0);
+            _direction = new Vector3(Global._rndCratePhase.Next(0, 2)-1, Global._rndCratePhase.Next(0, 2) - 1, 0);
             _phase = (int)Global._rndCratePhase.Next(0, 3);
         }
 
@@ -46,7 +52,7 @@ namespace Caterpillar.MapObject
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.5f, 0);
                     effect.View = viewMatrix;
-                    effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
+                    effect.World = Matrix.CreateScale(_size) * Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
                     effect.Projection = projectionMatrix;
                 }
                 mesh.Draw();
@@ -114,6 +120,7 @@ namespace Caterpillar.MapObject
         //Use Additional Functions to Compute Update
         public void Update(GameTime gameTime)
         {
+            if(Global._gamePhase>=_size-1)
             Rotate();
         }        
     }

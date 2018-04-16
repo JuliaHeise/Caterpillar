@@ -25,6 +25,13 @@ namespace Caterpillar
 
         public static int viewSizeWidth = 1600; //Breite des Spielfensters
         public static int viewSizeHeight = 900;
+        public static int gameSizeWidth = 20; //Breite des Spielfeldes (3D Maß)
+        public static int gameSizeHeight = 20;
+
+        public static int _gamePhase = 1;
+
+
+
 
         public static double VectorDistance(Vector3 v1, Vector3 v2) // Ignoriert Z da "höhe"
         {

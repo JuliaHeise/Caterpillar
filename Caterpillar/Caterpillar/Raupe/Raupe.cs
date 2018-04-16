@@ -15,9 +15,9 @@ namespace Caterpillar.Raupe
     class Raupe
     {
         float _tailSize = 0.5f;
-        int _score;
+        public int _score;
         public bool _isAlive;
-        float _scale;
+        public float _scale;
         Head _head;
         ArrayList _bodyPartArray;
         int _maxTailLength = 50;
