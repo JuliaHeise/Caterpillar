@@ -15,6 +15,7 @@ namespace Caterpillar.MapObject
         Model _modelBody;
         public Vector3 _direction;
         int _phase;
+        int _skipCounter = 0;
         float _spinSpeed = 0.01f;
         public float _size;
 
@@ -117,11 +118,70 @@ namespace Caterpillar.MapObject
 
         }
 
+        public void KeepWarm() //hält das Model in bewegung damit Monogame nicht daran denkt es auszublenden
+        {/*
+            int _justKeepWarm = 100;
+
+            if (_phase == 0)
+            {
+                _direction.X += _spinSpeed / _justKeepWarm;
+                _direction.Y -= _spinSpeed / _justKeepWarm;
+                if (_direction.Y < _spinSpeed / _justKeepWarm)
+                {
+                    _direction.Y = 0;
+                    _direction.X = 1;
+                    _phase = 1;
+                }
+            }
+            else if (_phase == 1)
+            {
+                _direction.X -= _spinSpeed / _justKeepWarm;
+                _direction.Y -= _spinSpeed / _justKeepWarm;
+                if (_direction.X < _spinSpeed / _justKeepWarm)
+                {
+                    _direction.Y = -1;
+                    _direction.X = 0;
+                    _phase = 2;
+                }
+            }
+            else if (_phase == 2)
+            {
+                _direction.X -= _spinSpeed / _justKeepWarm;
+                _direction.Y += _spinSpeed / _justKeepWarm;
+                if (_direction.Y > -_spinSpeed / _justKeepWarm)
+                {
+                    _direction.Y = 0;
+                    _direction.X = -1;
+                    _phase = 3;
+                }
+            }
+            else
+            {
+                _direction.X += _spinSpeed / _justKeepWarm;
+                _direction.Y += _spinSpeed / _justKeepWarm;
+                if (_direction.X > -_spinSpeed / _justKeepWarm)
+                {
+                    _direction.Y = 1;
+                    _direction.X = 0;
+                    _phase = 0;
+                }
+            }
+            */
+
+        }
+
         //Use Additional Functions to Compute Update
         public void Update(GameTime gameTime)
         {
             if(Global._gamePhase>=_size-1)
             Rotate();
+            else
+            {
+                if(_skipCounter%100==0)
+                KeepWarm();
+
+                _skipCounter++;
+            }
         }        
     }
 }
