@@ -36,7 +36,7 @@ namespace Caterpillar.MapObject
         }
 
         //Draw
-        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        public void Draw()
         {
 
             foreach (ModelMesh mesh in _modelBody.Meshes)
@@ -45,9 +45,9 @@ namespace Caterpillar.MapObject
                 {
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.5f, 0);
-                    effect.View = viewMatrix;
+                    effect.View = Global.GameCamera._viewMatrix;
                     effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
-                    effect.Projection = projectionMatrix;
+                    effect.Projection = Global.GameCamera._projectionMatrix;
                 }
                 mesh.Draw();
             }
