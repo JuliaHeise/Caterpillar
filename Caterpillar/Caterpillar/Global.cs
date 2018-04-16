@@ -17,6 +17,8 @@ namespace Caterpillar
         public static SpriteBatch spriteBatch;
         public static ContentManager ContentManager;
         public static Camera.Camera GameCamera;
+        public static float _minCameraZoom = -18;
+        public static float _maxCameraZoom = -2;
         public static bool _freeCam = false;
 
         public static bool _gameActive = false;

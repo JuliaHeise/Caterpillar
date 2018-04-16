@@ -17,6 +17,7 @@ namespace Caterpillar.Raupe
         float _tailSize = 0.5f;
         int _score;
         public bool _isAlive;
+        float _scale;
         Head _head;
         ArrayList _bodyPartArray;
         int _maxTailLength = 50;
@@ -44,6 +45,7 @@ namespace Caterpillar.Raupe
             _head.Init();
             _bodyPartArray.Clear();
             _isAlive = true;
+            _scale = 1f;
 
         }
         public void Respawn()
@@ -81,7 +83,7 @@ namespace Caterpillar.Raupe
         {
             for (int j = 2; j < _bodyPartArray.Count; j++) //0 und 1 überspringen
             {
-                if (Global.VectorDistance(getPosition(), ((Body)_bodyPartArray[j]).GetPos()) < _tailSize)
+                if (Global.VectorDistance(getPosition(), ((Body)_bodyPartArray[j]).GetPos()) < _tailSize * _scale)
                 {
                     return false;
                 }
@@ -102,6 +104,10 @@ namespace Caterpillar.Raupe
 
             ((Body)_bodyPartArray[_score]).Load();
             _score += n;
+            _scale += 0.05f;
+            Global._minCameraZoom = -18 * _scale;
+            Global._maxCameraZoom = -2 * _scale;
+            Global.GameCamera._camPosition.Z -= 0.05f;
         }
         
         //use Additional functions to calculate the Update()
@@ -123,7 +129,7 @@ namespace Caterpillar.Raupe
             }
 
 
-            _head.Update(gameTime);
+            _head.Update(gameTime, _scale);
 
             for (int i = 0; i < _bodyPartArray.Count; i++)
             {
@@ -138,7 +144,7 @@ namespace Caterpillar.Raupe
                     else
                         _bodyPart.SetAim(((Body)_bodyPartArray[i - 1]).GetPos()); //andere Parts folgen Part vor ihnen 
 
-                    _bodyPart.Update(gameTime);
+                    _bodyPart.Update(gameTime, _scale);
                 }
 
             }

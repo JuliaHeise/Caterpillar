@@ -16,11 +16,13 @@ namespace Caterpillar.Raupe
         private Vector3 _position;
         private Vector3 _direction;
         private Vector3 _aim;
+        private float _inimodelSize = 0.4f;
         private float _modelSize = 0.4f;
         private float _initspeed = 0.05f; //= 0.048f;
         private float _speed = 0.05f; //= 0.048f;
         private bool _fresh;
         private int _ageCounter;
+        private float _scale;
 
         //constructor
         public Body(Vector3 aimPos, Vector3 pos)
@@ -34,6 +36,7 @@ namespace Caterpillar.Raupe
         {
             _direction = _aim - _position;
             _fresh = true;
+            _scale = 1f;
         }
         public void Load()
         {
@@ -73,7 +76,7 @@ namespace Caterpillar.Raupe
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.2f, 0);
                     effect.View = viewMatrix;
-                    effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
+                    effect.World = Matrix.CreateScale(_scale) * Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
                     effect.Projection = projectionMatrix;
                 }
                 mesh.Draw();
@@ -84,24 +87,11 @@ namespace Caterpillar.Raupe
         //Additional Functions
 
         //Use Additional Functions to compute Update()
-        public void Update(GameTime gameTime)
-        {/*
-            if (Global.VectorAngle(_direction, _aim - _position) < 10 || _fresh)
-            {
-                _speed = _inispeed;
-                _direction = _aim - _position;
-                // _direction.Normalize();
-            }
-            else
-                _speed=0;
-
-            _ageCounter++;
-
-            if(_ageCounter>20)
-            _fresh = false;
-
-            _direction.Normalize();*/
-
+        public void Update(GameTime gameTime, float _playerScale)
+        {
+            _scale = _playerScale;
+            _modelSize = _inimodelSize * _scale;
+            _speed = _initspeed * _scale;
 
             _direction = _aim - _position;
             _direction.Normalize();
@@ -110,8 +100,6 @@ namespace Caterpillar.Raupe
             {
                 _position += _direction * _speed;
             }
-           /* else
-                _position -= _direction * _speed;*/
 
         }
 

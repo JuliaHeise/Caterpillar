@@ -45,14 +45,14 @@ namespace Caterpillar.Camera
         //Additional Functions
         private void ZoomIn()
         {
-            if (_camPosition.Z < -2)
+            if (_camPosition.Z < Global._maxCameraZoom)
                 _camPosition.Z += 0.5f;
             _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
 
         }
         private void ZoomOut()
         {
-            if (_camPosition.Z > -18)
+            if (_camPosition.Z > Global._minCameraZoom)
                 _camPosition.Z -= 0.5f;
             _prevMouseWheelValue = Mouse.GetState().ScrollWheelValue;
 

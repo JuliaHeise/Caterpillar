@@ -17,7 +17,9 @@ namespace Caterpillar.Raupe
         Model _modelHead;
         private Vector3 _position;
         private Vector3 _direction;
+        private float _iniSpeed = 0.05f;
         private float _speed = 0.05f;
+        private float _scale;
 
 
         //Initialize
@@ -33,6 +35,7 @@ namespace Caterpillar.Raupe
         {
             _position = new Vector3(0.0f, 0.0f, 0.0f);
             _direction = new Vector3(0.0f, 1.0f, 0.0f);
+            _scale = 1f;
         }
 
         //Getter und Setter
@@ -60,7 +63,7 @@ namespace Caterpillar.Raupe
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.2f, 0);
                     effect.View = viewMatrix;
-                    effect.World = Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
+                    effect.World = Matrix.CreateScale(_scale) * Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
                     effect.Projection = projectionMatrix;
                 }
                 mesh.Draw();
@@ -70,8 +73,12 @@ namespace Caterpillar.Raupe
         //Additional functions
     
         //use Additional functions to compute Update()
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, float _playerScale)
         {
+            _scale = _playerScale;
+            _speed = _iniSpeed * _scale;
+            
+
             int _halfWidth = (int)(0.5 * Global.viewSizeWidth);
             int _halfHeight = (int)(0.5 * Global.viewSizeHeight);
             int _mouseX;
@@ -97,13 +104,13 @@ namespace Caterpillar.Raupe
 
                  _mouseX = -(int)((Mouse.GetState().Position.X - _halfWidth)) + (int)Global.GameCamera._camPosition.X * _camCorrX;
                  _mouseY = -(int)((Mouse.GetState().Position.Y - _halfHeight)) + (int)Global.GameCamera._camPosition.Y * _camCorrY;
-                float _scale = 87.5f / (-Global.GameCamera._camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
+                float _camScale = 87.5f / (-Global.GameCamera._camPosition.Z / 9); //ertestet, Maß zwischen Modell Koordinatensystem und Maus ist anders
 
                 // Console.Out.WriteLine(Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f)));
 
-                if (Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f)) < 60)
+                if (Global.VectorAngle(_direction, new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _camScale), 0.0f)) < 60)
                 {
-                    _direction += new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _scale), 0.0f);
+                    _direction += new Vector3((_mouseX - _position.X * _scale), (_mouseY - _position.Y * _camScale), 0.0f);
                 }
 
             }

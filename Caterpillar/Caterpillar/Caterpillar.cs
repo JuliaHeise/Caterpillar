@@ -151,6 +151,8 @@ namespace Caterpillar
                 {
                     _player.Respawn();
                     _crateArray = new MapObject.Crate[_maxCrateNum];
+                    Global._minCameraZoom = -18;
+                    Global._maxCameraZoom = -2;
                 }
                 else
                 {
