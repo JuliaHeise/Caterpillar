@@ -53,7 +53,7 @@ namespace Caterpillar.Raupe
         }
 
         //Draw
-        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        public void Draw()
         {         
 
             foreach (ModelMesh mesh in _modelHead.Meshes)
@@ -62,9 +62,9 @@ namespace Caterpillar.Raupe
                 {
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.2f, 0);
-                    effect.View = viewMatrix;
+                    effect.View = Global.GameCamera._viewMatrix;
                     effect.World = Matrix.CreateScale(_scale) * Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
-                    effect.Projection = projectionMatrix;
+                    effect.Projection = Global.GameCamera._projectionMatrix;
                 }
                 mesh.Draw();
             }

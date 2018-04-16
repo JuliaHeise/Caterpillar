@@ -68,13 +68,13 @@ namespace Caterpillar.Raupe
         }
 
         //Draw
-        public void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        public void Draw()
         {
-            _head.Draw(viewMatrix, projectionMatrix);
+            _head.Draw();
 
             for (int i = 0; i < _bodyPartArray.Count; i++)
             {
-                ((Body)_bodyPartArray[i]).Draw(viewMatrix, projectionMatrix);
+                ((Body)_bodyPartArray[i]).Draw();
             }
         }
 
