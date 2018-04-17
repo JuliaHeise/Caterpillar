@@ -20,7 +20,7 @@ namespace Caterpillar.Raupe
         public float _scale;
         Head _head;
         ArrayList _bodyPartArray;
-        int _maxTailLength = 50;
+        int _maxTailLength = 100;
 
         //Initialize "Raupe" 
         public Raupe()
@@ -57,6 +57,10 @@ namespace Caterpillar.Raupe
         public Vector3 getPosition()
         {
             return _head.GetPos();
+        }
+        public Vector3 getDirection()
+        {
+            return _head.GetDir();
         }
         public void gameLost()
         {
@@ -108,6 +112,8 @@ namespace Caterpillar.Raupe
             Global._minCameraZoom = -18 * _scale;
             Global._maxCameraZoom = -2 * _scale;
             Global.GameCamera._camPosition.Z -= 0.05f;
+
+            Global._isEatingAnimation = 10; //duration of animation
         }
         
         //use Additional functions to calculate the Update()

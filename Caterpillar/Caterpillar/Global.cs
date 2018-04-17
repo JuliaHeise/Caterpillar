@@ -20,13 +20,14 @@ namespace Caterpillar
         public static float _minCameraZoom = -18;
         public static float _maxCameraZoom = -2;
         public static bool _freeCam = false;
+        public static int _isEatingAnimation = 0;
 
         public static bool _gameActive = false;
 
         public static int viewSizeWidth = 1600; //Breite des Spielfensters
         public static int viewSizeHeight = 900;
-        public static int gameSizeWidth = 20; //Breite des Spielfeldes (3D Maß)
-        public static int gameSizeHeight = 20;
+        public static int gameSizeWidth = 30; //Breite des Spielfeldes (3D Maß)
+        public static int gameSizeHeight = 30;
 
         public static int _gamePhase = 1;
 

@@ -12,6 +12,7 @@ namespace Caterpillar
     {
         Random _rnd;
         Texture2D _textureCursor;
+        Texture2D _eatingEffect;
         int _mouseClickSkipCounter=0;
 
 
@@ -23,7 +24,7 @@ namespace Caterpillar
         float _InitialCrateDistance = 0.5f;
 
         //Kistenspawnfunktion
-        public static int _maxCrateNum = 50;
+        public static int _maxCrateNum = 100;
         public static MapObject.Crate[] _crateArray;
 
         void SpawnCrates(int n, float _cSize)
@@ -46,7 +47,9 @@ namespace Caterpillar
                 for (int j = 0; j<_maxCrateNum; j++)
                 {
                    // _rnd = new Random();
-                    _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight); 
+                    _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
+                    while ( ((_xPos<2) && (_xPos > -2)) && ((_yPos < 2) && (_yPos > -2)) )
+                        _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
 
 
                     if (_crateArray[j] == null)
@@ -66,7 +69,8 @@ namespace Caterpillar
             {
                 if (_CArray[i] != null)
                 {
-                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5*_InitialCrateDistance+ 0.5 * _InitialCrateDistance * _Raupe._scale)
+                    // if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5*_InitialCrateDistance+ 0.5 * _InitialCrateDistance * _Raupe._scale)
+                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5 * _InitialCrateDistance* _CArray[i]._size + 0.5 * _InitialCrateDistance * _Raupe._scale)
                     {
                         if (Global._gamePhase >= _CArray[i]._size - 1)
                         {
@@ -112,6 +116,7 @@ namespace Caterpillar
         {
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
             _textureCursor = this.Content.Load<Texture2D>("Black");
+            _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v2");
             _player.Load();
         }
 
@@ -176,9 +181,12 @@ namespace Caterpillar
                 //Kistenspawnen
                 if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
                 {
-                    SpawnCrates(15, 1);
-                    SpawnCrates(15, 2);
-                    SpawnCrates(5, 3);
+                    SpawnCrates(15, 1); //15:10
+                    SpawnCrates(25, 2); //40:30
+                    SpawnCrates(15, 4); //55:40
+                    //SpawnCrates(10, 5); //65:50
+                    SpawnCrates(5, 6);
+                    SpawnCrates(2, 10);
                 }
 
                 _player.Update(gameTime);
@@ -209,6 +217,18 @@ namespace Caterpillar
 
             GraphicsDevice.Clear(Color.ForestGreen);
 
+            //2D Zeug unter 3D Zeug
+            Global.spriteBatch.Begin();
+            if (Global._isEatingAnimation>0)
+            {
+                Global.spriteBatch.Draw(_eatingEffect, new Vector2(0.5f*Global.viewSizeWidth- 0.5f * _eatingEffect.Width -_player.getDirection().X*75, 0.5f*Global.viewSizeHeight - 0.5f * _eatingEffect.Height - _player.getDirection().Y * 75));
+                Global._isEatingAnimation--;
+            }
+            Global.spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
+
+            
+
             //3D Zeug
             _player.Draw();
 
@@ -220,11 +240,11 @@ namespace Caterpillar
                 }
             }
 
-            //2D Zeug
+            //2D Zeug über 3D zeug
             Global.spriteBatch.Begin();
             Global.spriteBatch.Draw(_textureCursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y));
             Global.spriteBatch.End();
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default; 
 
             base.Draw(gameTime);
         }

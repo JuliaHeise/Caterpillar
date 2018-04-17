@@ -31,9 +31,15 @@ namespace Caterpillar.MapObject
             if(_size<=1)
             _modelBody = Global.ContentManager.Load<Model>("needlev3"); //Nadel
             else if (_size <= 2)
-                _modelBody = Global.ContentManager.Load<Model>("Food1v4"); //Blatt
-            else if (_size <= 3)
-                _modelBody = Global.ContentManager.Load<Model>("Branchv4"); //Ast
+                _modelBody = Global.ContentManager.Load<Model>("Food1v4"); //Blatt // size 1 zu 2 : 10 score
+            else if (_size <= 4)
+                _modelBody = Global.ContentManager.Load<Model>("Branchv4"); //Ast size 2 zu 4 : 20 score --> 30
+            else if (_size <= 5)
+                _modelBody = Global.ContentManager.Load<Model>("Branchv4"); //Busch // noch kein Model
+            else if (_size <= 6)
+                _modelBody = Global.ContentManager.Load<Model>("pinev2"); //Baum
+            else if (_size <= 10)
+                _modelBody = Global.ContentManager.Load<Model>("Stonev1"); //Stein
         }
         public void Init()
         {

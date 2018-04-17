@@ -20,8 +20,6 @@ namespace Caterpillar.Raupe
         private float _modelSize = 0.4f;
         private float _initspeed = 0.05f; //= 0.048f;
         private float _speed = 0.05f; //= 0.048f;
-        private bool _fresh;
-        private int _ageCounter;
         private float _scale;
 
         //constructor
@@ -35,7 +33,6 @@ namespace Caterpillar.Raupe
         public void Init()
         {
             _direction = _aim - _position;
-            _fresh = true;
             _scale = 1f;
         }
         public void Load()
