@@ -14,6 +14,7 @@ namespace Caterpillar
         Texture2D _textureCursor;
         Texture2D _eatingEffect;
         int _mouseClickSkipCounter=0;
+        bool _deathSkipAClick = false;
 
 
         //Player
@@ -79,6 +80,7 @@ namespace Caterpillar
                         }
                         else
                         {
+                            _deathSkipAClick = true;
                             _Raupe._isAlive = false;
                             Global._gameActive = false;
                         }
@@ -158,7 +160,7 @@ namespace Caterpillar
 
 
             _mouseClickSkipCounter++;
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter>10) //Spiel starten/pausieren durch linksclick
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter>10) //Spiel starten durch linksclick
             {
                 if (!_player._isAlive)
                 {
@@ -167,15 +169,24 @@ namespace Caterpillar
                     Global._minCameraZoom = -18;
                     Global._maxCameraZoom = -2;
                     Global.GameCamera._camPosition.Z = -9;
-                }
-                else
-                {
-                    Global._gameActive = !Global._gameActive;
+
+                    if (!_deathSkipAClick)
+                    {
+                        Global._gameActive = !Global._gameActive;
+                    }
+                    _deathSkipAClick = false;
                 }
                 _mouseClickSkipCounter = 0;
             }
 
-            if (Global._gameActive) //läuft gerade eine Runde
+            if (Mouse.GetState().RightButton == ButtonState.Pressed && _mouseClickSkipCounter > 10) //Spiel pausieren durch rechtsclick
+            {
+                Global._gameActive = !Global._gameActive;
+                _mouseClickSkipCounter = 0;
+            }
+
+
+                if (Global._gameActive) //läuft gerade eine Runde
             {
 
                 //Kistenspawnen

@@ -44,7 +44,7 @@ namespace Caterpillar.Raupe
             _score = 0;
             _head.Init();
             _bodyPartArray.Clear();
-            _isAlive = true;
+            _isAlive = false;
             _scale = 1f;
 
         }
