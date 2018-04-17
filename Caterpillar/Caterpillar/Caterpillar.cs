@@ -15,6 +15,7 @@ namespace Caterpillar
         Texture2D _eatingEffect;
         int _mouseClickSkipCounter=0;
         bool _deathSkipAClick = false;
+        Model GameBackground;
 
 
         //Player
@@ -49,7 +50,7 @@ namespace Caterpillar
                 {
                    // _rnd = new Random();
                     _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
-                    while ( ((_xPos<2) && (_xPos > -2)) && ((_yPos < 2) && (_yPos > -2)) )
+                    while ( ((_xPos<4) && (_xPos > -4)) && ((_yPos < 4) && (_yPos > -4)) )
                         _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
 
 
@@ -119,6 +120,7 @@ namespace Caterpillar
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
             _textureCursor = this.Content.Load<Texture2D>("Black");
             _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v2");
+            GameBackground = Global.ContentManager.Load<Model>("Background");
             _player.Load();
         }
 
@@ -228,7 +230,24 @@ namespace Caterpillar
 
             GraphicsDevice.Clear(Color.ForestGreen);
 
-            //2D Zeug unter 3D Zeug
+
+            //Background
+            foreach (ModelMesh mesh in GameBackground.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    //effect.EnableDefaultLighting();
+                    effect.AmbientLightColor = new Vector3(0, 0, 0);
+                    effect.View = Global.GameCamera._viewMatrix;
+                    effect.World = Matrix.CreateWorld(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Up);
+                    effect.Projection = Global.GameCamera._projectionMatrix;
+                }
+                mesh.Draw();
+            }
+
+
+
+            //2D Zeug unter 3D Map Zeug
             Global.spriteBatch.Begin();
             if (Global._isEatingAnimation>0)
             {
@@ -238,9 +257,9 @@ namespace Caterpillar
             Global.spriteBatch.End();
             GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
 
-            
 
-            //3D Zeug
+
+            //3D Map Zeug
             _player.Draw();
 
             for (int j = 0; j < _maxCrateNum; j++)
