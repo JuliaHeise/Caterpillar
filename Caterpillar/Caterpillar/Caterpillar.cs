@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.IO;
 
@@ -16,6 +17,7 @@ namespace Caterpillar
         int _mouseClickSkipCounter=0;
         bool _deathSkipAClick = false;
         Model GameBackground;
+        SoundEffect _eatingSound;
 
 
         //Player
@@ -78,6 +80,7 @@ namespace Caterpillar
                         {
                             _CArray[i] = null;
                             _Raupe.AddToLength(1);
+                            _eatingSound.Play();
                         }
                         else
                         {
@@ -121,6 +124,7 @@ namespace Caterpillar
             _textureCursor = this.Content.Load<Texture2D>("Black");
             _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v2");
             GameBackground = Global.ContentManager.Load<Model>("Background");
+            _eatingSound = this.Content.Load<SoundEffect>("EatingSound");
             _player.Load();
         }
 

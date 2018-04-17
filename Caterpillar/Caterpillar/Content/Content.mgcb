@@ -309,3 +309,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Background.dae
 
+#begin EatingSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:EatingSound.mp3
+
