@@ -17,10 +17,12 @@ namespace Caterpillar.MapObject
         int _phase;
         float _spinSpeed = 0.01f;
         public float _size;
+        private Vector3 _Color;
 
         //Initialize
         public Crate(Vector3 pos, float _size)
         {
+            _Color = new Vector3(1f, 0.5f, 0);
             this._size = _size;
             _position = pos;
             Init();
@@ -31,7 +33,7 @@ namespace Caterpillar.MapObject
             if(_size<=1)
             _modelBody = Global.ContentManager.Load<Model>("needlev3"); //Nadel
             else if (_size <= 2)
-                _modelBody = Global.ContentManager.Load<Model>("Food1v4"); //Blatt // size 1 zu 2 : 10 score
+                _modelBody = Global.ContentManager.Load<Model>("BlankLeaf"); //Blatt // size 1 zu 2 : 10 score
             else if (_size <= 4)
                 _modelBody = Global.ContentManager.Load<Model>("Branchv4"); //Ast size 2 zu 4 : 20 score --> 30
             else if (_size <= 5)
@@ -59,7 +61,7 @@ namespace Caterpillar.MapObject
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(0, 0.5f, 0);
+                    effect.AmbientLightColor = _Color;
                     effect.View = Global.GameCamera._viewMatrix;
                     effect.World = Matrix.CreateScale(_size) * Matrix.CreateWorld(_position, Vector3.Forward, _direction);
                     effect.Projection = Global.GameCamera._projectionMatrix;
@@ -131,8 +133,11 @@ namespace Caterpillar.MapObject
         //Use Additional Functions to Compute Update
         public void Update(GameTime gameTime)
         {
-            if(Global._gamePhase>=_size-1)
-            Rotate();
+            if (Global._gamePhase >= _size - 1)
+            {
+                _Color = new Vector3(0, 0.5f, 0);
+                Rotate();
+            }
         }        
     }
 }

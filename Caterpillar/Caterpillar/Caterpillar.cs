@@ -50,10 +50,18 @@ namespace Caterpillar
 
                 for (int j = 0; j<_maxCrateNum; j++)
                 {
-                   // _rnd = new Random();
-                    _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
-                    while ( ((_xPos<4) && (_xPos > -4)) && ((_yPos < 4) && (_yPos > -4)) )
-                        _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
+                    // _rnd = new Random();
+                    for (int h = 0; h < _maxCrateNum; h++)
+                    {
+                        if (_crateArray[h] != null)
+                        {
+                            _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
+                            while (((_xPos < 4) && (_xPos > -4)) && ((_yPos < 4) && (_yPos > -4))
+                                && Global.VectorDistance(new Vector3(_xPos, _yPos, 0), _crateArray[h]._position) < 0.25* _crateArray[h]._size)
+                                _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
+                        }
+                    }
+
 
 
                     if (_crateArray[j] == null)
@@ -122,7 +130,7 @@ namespace Caterpillar
         {
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
             _textureCursor = this.Content.Load<Texture2D>("Black");
-            _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v2");
+            _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v3");
             GameBackground = Global.ContentManager.Load<Model>("Background");
             _eatingSound = this.Content.Load<SoundEffect>("EatingSound");
             _player.Load();
