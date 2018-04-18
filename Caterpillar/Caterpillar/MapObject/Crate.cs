@@ -128,6 +128,48 @@ namespace Caterpillar.MapObject
 
         }
 
+        public bool IsColliding(Vector3 _fPos)
+        {
+            if(_size!=4)
+            {
+                if (Global.VectorDistance(_fPos, _position)
+                    < 0.5 * 0.6f * _size + 0.5 * 0.5f * Global._playerScale)
+                    return true;
+            }
+            else if (_size == 4)
+            {
+                float _width = 2f;
+                float _height = 5f;
+
+                Vector3[] _corners = new Vector3[4];
+                Vector3 _localForward = _direction;
+                Vector3 _localRight;
+             /*   if (_direction.X < _direction.Y)
+                _localRight = new Vector3(-_direction.Y, _direction.X,0);
+                else*/
+                _localRight = new Vector3(_direction.Y, -_direction.X, 0);
+
+
+                _localForward.Normalize();
+                _localRight.Normalize();
+                _corners[0] = _position + 0.5f * _height * _localForward - 0.5f * _width * _localRight; //forward left
+                _corners[1] = _corners[0] -  _height * _localForward +  _width * _localRight; //bottom right
+                _corners[2] = _corners[0] + _width * _localRight; //forward right
+                _corners[3] = _corners[0] - _height * _localForward; //bottom left
+
+                if (Global.PointIsRightOf(_fPos, _corners[0], _corners[2])
+                    && Global.PointIsRightOf(_fPos, _corners[2], _corners[1])
+                    && Global.PointIsRightOf(_fPos, _corners[1], _corners[3])
+                    && Global.PointIsRightOf(_fPos, _corners[3], _corners[0]))
+                {
+                    return true;
+                }
+
+
+            }
+            return false;
+        }
+
  
 
         //Use Additional Functions to Compute Update

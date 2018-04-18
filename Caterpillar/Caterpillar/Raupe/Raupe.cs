@@ -109,6 +109,7 @@ namespace Caterpillar.Raupe
             ((Body)_bodyPartArray[_score]).Load();
             _score += n;
             _scale += 0.05f;
+            Global._playerScale = _scale;
             Global._minCameraZoom = -18 * _scale;
             Global._maxCameraZoom = -2 * _scale;
             Global.GameCamera._camPosition.Z -= 0.05f;

@@ -57,7 +57,7 @@ namespace Caterpillar
                         {
                             _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
                             while (((_xPos < 4) && (_xPos > -4)) && ((_yPos < 4) && (_yPos > -4))
-                                && Global.VectorDistance(new Vector3(_xPos, _yPos, 0), _crateArray[h]._position) < 0.25* _crateArray[h]._size)
+                                || (Global.VectorDistance(new Vector3(_xPos, _yPos, 0), _crateArray[h]._position) < 0.5* _crateArray[h]._size))
                                 _yPos = (int)(0.5 * Global.gameSizeHeight) - _rnd.Next(0, Global.gameSizeHeight);
                         }
                     }
@@ -82,7 +82,9 @@ namespace Caterpillar
                 if (_CArray[i] != null)
                 {
                     // if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5*_InitialCrateDistance+ 0.5 * _InitialCrateDistance * _Raupe._scale)
-                    if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5 * _InitialCrateDistance* _CArray[i]._size + 0.5 * _InitialCrateDistance * _Raupe._scale)
+
+                   // if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5 * _InitialCrateDistance * _CArray[i]._size + 0.5 * _InitialCrateDistance * _Raupe._scale)
+                    if(_CArray[i].IsColliding(_Raupe.getPosition()))
                     {
                         if (Global._gamePhase >= _CArray[i]._size - 1)
                         {

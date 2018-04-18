@@ -28,6 +28,7 @@ namespace Caterpillar
         public static int viewSizeHeight = 900;
         public static int gameSizeWidth = 40; //Breite des Spielfeldes (3D Maß)
         public static int gameSizeHeight = 40;
+        public static float _playerScale;
 
         public static int _gamePhase = 1;
 
@@ -55,6 +56,18 @@ namespace Caterpillar
                 }
             }
             return _count;
+        }
+
+        public static bool PointIsRightOf(Vector3 _point, Vector3 _E1, Vector3 _E2)
+        {
+            float _A = -(_E2.Y- _E1.Y);
+            float _B = (_E2.X - _E1.X);
+            float _C = -(_A * _E1.X + _B * _E1.Y);
+            float _D = _A * _point.X + _B * _point.Y + _C;
+            if (_D < 0)
+                return true;
+            return false;
+
         }
 
     }
