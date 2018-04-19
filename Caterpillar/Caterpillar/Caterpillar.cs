@@ -176,10 +176,10 @@ namespace Caterpillar
         protected override void LoadContent()
         {
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
-            _textureCursor = this.Content.Load<Texture2D>("Black");
-            _eatingEffect = this.Content.Load<Texture2D>("EatingAnim1v3");
+            _textureCursor = Global.ContentManager.Load<Texture2D>("Black");
+            _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v3");
             GameBackground = Global.ContentManager.Load<Model>("Background");
-            _eatingSound = this.Content.Load<SoundEffect>("EatingSound");
+            _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
             _player.Load();
         }
 
