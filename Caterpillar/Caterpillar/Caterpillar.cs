@@ -32,9 +32,12 @@ namespace Caterpillar
         //Kistenspawnfunktion
         public static int _maxCrateNum = 200;
         public static MapObject.Crate[] _crateArray;
+        public static int _emptySpacePostSpawn;
+        public static int _borderElementNum = 0;
 
         public static void DrawBorder()
         {
+            _emptySpacePostSpawn = Global.CountNullEntries(_crateArray);
 
             Vector3 _BorderPos = new Vector3(Global.gameSizeWidth+3, Global.gameSizeHeight+3, 0);
             for (int i = 0; i < _BorderPos.X/3; i++)
@@ -222,7 +225,11 @@ namespace Caterpillar
                 if (!_player._isAlive)
                 {
                     _player.Respawn();
-                    _crateArray = new MapObject.Crate[_maxCrateNum];
+                    //_crateArray = new MapObject.Crate[_maxCrateNum];
+                    for(int j = 0; j < _maxCrateNum - _emptySpacePostSpawn; j++)
+                    {
+                        _crateArray[j] = null;
+                    }
                     Global._minCameraZoom = -18;
                     Global._maxCameraZoom = -2;
                     Global.GameCamera._camPosition.Z = -9;
@@ -247,7 +254,8 @@ namespace Caterpillar
             {
 
                 //Kistenspawnen
-                if (Global.CountNullEntries(_crateArray) == _maxCrateNum)
+                if (Global.CountNullEntries(_crateArray) == _crateArray.Length
+                    || Global.CountNullEntries(_crateArray) == _crateArray.Length - _borderElementNum)
                 {
                     SpawnCrates(15, 1); //15:10
                     SpawnCrates(25, 2); //40:30
@@ -263,6 +271,7 @@ namespace Caterpillar
                 {
                     DrawBorder();
                     _onlyDoOnce = !_onlyDoOnce;
+                    _borderElementNum = _emptySpacePostSpawn - Global.CountNullEntries(_crateArray);
                 }
 
                 CheckPlayerCollision(_player, _crateArray);

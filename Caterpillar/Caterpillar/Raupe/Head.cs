@@ -119,9 +119,15 @@ namespace Caterpillar.Raupe
                 _mouseX = -(int)((Mouse.GetState().Position.X - _halfWidth));
                 _mouseY = -(int)((Mouse.GetState().Position.Y - _halfHeight));
 
-                if (Global.VectorAngle(_direction, new Vector3((_mouseX), (_mouseY), 0.0f)) < 60)
+                if (Global.VectorAngle(_direction, new Vector3((_mouseX), (_mouseY), 0.0f)) < 30)
                 {
                     _direction += new Vector3((_mouseX), (_mouseY), 0.0f);
+                }
+                else if (Global.VectorAngle(_direction, new Vector3((_mouseX), (_mouseY), 0.0f)) > 30) //Raupe verliert Cursor nicht
+                {
+                    Vector3 _norm = _direction;
+                    _norm.Normalize();
+                    Mouse.SetPosition((int)(0.5*Global.viewSizeWidth - 50 * _norm.X), (int)(0.5 * Global.viewSizeHeight - 50 * _norm.Y));
                 }
             }
 
