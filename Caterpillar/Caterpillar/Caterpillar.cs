@@ -178,7 +178,7 @@ namespace Caterpillar
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
             _textureCursor = Global.ContentManager.Load<Texture2D>("Black");
             _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v3");
-            GameBackground = Global.ContentManager.Load<Model>("Background");
+            GameBackground = Global.ContentManager.Load<Model>("Background2");
             _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
             _player.Load();
         }

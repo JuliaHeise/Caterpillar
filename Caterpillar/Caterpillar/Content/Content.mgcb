@@ -132,7 +132,7 @@
 /processorParam:RotationX=0
 /processorParam:RotationY=180
 /processorParam:RotationZ=0
-/processorParam:Scale=4
+/processorParam:Scale=5
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
 /build:needlev3.dae
@@ -383,4 +383,23 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Background.png
+
+#begin Background2.dae
+/importer:OpenAssetImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=180
+/processorParam:RotationZ=0
+/processorParam:Scale=10
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:Background2.dae
 

@@ -22,7 +22,7 @@ namespace Caterpillar.MapObject
         //Initialize
         public Crate(Vector3 pos, float _size)
         {
-            _Color = new Vector3(1f, 0.5f, 0);
+            _Color = new Vector3(1f, 0.3f, 0);
             this._size = _size;
             _position = pos;
             Init();
@@ -177,7 +177,7 @@ namespace Caterpillar.MapObject
         {
             if (Global._gamePhase >= _size - 1)
             {
-                _Color = new Vector3(0, 0.5f, 0);
+                _Color = new Vector3(0.2f, 2f, 0.5f);
                 Rotate();
             }
         }        
