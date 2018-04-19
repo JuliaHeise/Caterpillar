@@ -64,6 +64,12 @@ namespace Caterpillar.Raupe
         }
         public void gameLost()
         {
+            _head.SpinAround();
+            for (int i = 0; i < _bodyPartArray.Count; i++)
+            {
+                ((Body)_bodyPartArray[i]).SpinAround();
+            }
+            Global._isDeadTime = 10;
             Global._gameActive = false;
         }
         public void gameWon()
@@ -126,7 +132,7 @@ namespace Caterpillar.Raupe
             //Tod oder Sieg abfangen
             if (!_isAlive)
             {
-                Global._gameActive = false;
+                gameLost();
             }
             else if (_score == _maxTailLength)
             {

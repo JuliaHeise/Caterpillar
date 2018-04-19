@@ -22,6 +22,9 @@ namespace Caterpillar
         public static bool _freeCam = false;
         public static int _isEatingAnimation = 0;
 
+        public static int _isDeadTime = -1;
+        public static int _standardDeadTime = 10;
+
         public static bool _gameActive = false;
 
         public static int viewSizeWidth = 1600; //Breite des Spielfensters

@@ -140,7 +140,8 @@ namespace Caterpillar
                         {
                             _deathSkipAClick = true;
                             _Raupe._isAlive = false;
-                            Global._gameActive = false;
+                            //Global._gameActive = false;
+                            _Raupe.gameLost();
                         }
                     }
                 }
@@ -250,8 +251,19 @@ namespace Caterpillar
             }
 
 
-                if (Global._gameActive) //läuft gerade eine Runde
+            if(Global._isDeadTime>0)
             {
+                Global._isDeadTime--;
+            }
+            else if (Global._isDeadTime == 0)
+            {
+                Global._gameActive = false;
+                Global._isDeadTime--;
+            }
+
+            if (Global._gameActive) //läuft gerade eine Runde
+            {
+
 
                 //Kistenspawnen
                 if (Global.CountNullEntries(_crateArray) == _crateArray.Length

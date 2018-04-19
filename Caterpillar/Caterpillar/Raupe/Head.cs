@@ -17,6 +17,7 @@ namespace Caterpillar.Raupe
         Model _modelHead;
         private Vector3 _position;
         private Vector3 _direction;
+        private Vector3 _upwardsDirection;
         private float _iniSpeed = 0.05f;
         private float _speed = 0.05f;
         private float _scale;
@@ -35,6 +36,7 @@ namespace Caterpillar.Raupe
         {
             _position = new Vector3(0.0f, 0.0f, 0.0f);
             _direction = new Vector3(0.0f, 1.0f, 0.0f);
+            _upwardsDirection = Vector3.Forward;
             _scale = 1f;
         }
 
@@ -51,6 +53,19 @@ namespace Caterpillar.Raupe
         {
             _speed = newSpeed;
         }
+        public void SpinAround()
+        {
+            if (_upwardsDirection == Vector3.Backward)
+            {
+                _upwardsDirection = Vector3.Forward;
+                _position.Z = 0;
+            }
+            else if (_upwardsDirection == Vector3.Forward)
+            {
+                _upwardsDirection = Vector3.Backward;
+                _position.Z = -1;
+            }
+        }
 
         //Draw
         public void Draw()
@@ -63,7 +78,7 @@ namespace Caterpillar.Raupe
                     effect.EnableDefaultLighting();
                     effect.AmbientLightColor = new Vector3(0, 0.2f, 0);
                     effect.View = Global.GameCamera._viewMatrix;
-                    effect.World = Matrix.CreateScale(_scale) * Matrix.CreateWorld(_position, Vector3.Forward, _direction); ;
+                    effect.World = Matrix.CreateScale(_scale) * Matrix.CreateWorld(_position, _upwardsDirection, _direction); ;
                     effect.Projection = Global.GameCamera._projectionMatrix;
                 }
                 mesh.Draw();
