@@ -18,6 +18,8 @@ namespace Caterpillar
         bool _deathSkipAClick = false;
         Model GameBackground;
         SoundEffect _eatingSound;
+        static bool _allObjectsSpawned = false;
+        static bool _onlyDoOnce = true;
 
 
         //Player
@@ -28,8 +30,47 @@ namespace Caterpillar
         float _InitialCrateDistance = 0.5f;
 
         //Kistenspawnfunktion
-        public static int _maxCrateNum = 100;
+        public static int _maxCrateNum = 200;
         public static MapObject.Crate[] _crateArray;
+
+        public static void DrawBorder()
+        {
+
+            Vector3 _BorderPos = new Vector3(Global.gameSizeWidth+3, Global.gameSizeHeight+3, 0);
+            for (int i = 0; i < _BorderPos.X/3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f*_BorderPos.X-i*3, 0.5f * _BorderPos.Y, 0), 10);
+                }
+            }
+            for (int i = 0; i < _BorderPos.X / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * -_BorderPos.Y, 0), 10);
+                }
+            }
+            
+            for (int i = 0; i < _BorderPos.Y / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                }
+            }
+            for (int i = 0; i < _BorderPos.Y / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * - _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                }
+            }
+        }
 
         void SpawnCrates(int n, float _cSize)
         {
@@ -214,18 +255,29 @@ namespace Caterpillar
                     //SpawnCrates(10, 5); //65:50
                     SpawnCrates(5, 6);
                     SpawnCrates(2, 10);
+                    _allObjectsSpawned = true;
                 }
 
                 _player.Update(gameTime);
+                if (_onlyDoOnce)
+                {
+                    DrawBorder();
+                    _onlyDoOnce = !_onlyDoOnce;
+                }
 
                 CheckPlayerCollision(_player, _crateArray);
             }
 
+
             //Kisten drehen
-            for(int h = 0; h < _crateArray.Length; h++)
+            for (int h = 0; h < _crateArray.Length; h++)
             {
                 if(_crateArray[h]!=null)
                 {
+                    if ((_crateArray[h]._position.X < _player.getPosition().X + 16 * _player._scale
+                   && _crateArray[h]._position.X > _player.getPosition().X - 16 * _player._scale)
+                   && (_crateArray[h]._position.Y < _player.getPosition().Y + 10 * _player._scale
+                      && _crateArray[h]._position.Y > _player.getPosition().Y - 10 * _player._scale)) //Object near Player
                     _crateArray[h].Update(gameTime);
                 }
             }
@@ -280,6 +332,10 @@ namespace Caterpillar
             {
                 if (_crateArray[j] != null)
                 {
+                    if((_crateArray[j]._position.X < _player.getPosition().X + 16 *_player._scale
+                        && _crateArray[j]._position.X > _player.getPosition().X - 16 * _player._scale)
+                        && (_crateArray[j]._position.Y < _player.getPosition().Y + 10 * _player._scale
+                        && _crateArray[j]._position.Y > _player.getPosition().Y - 10 * _player._scale)) //Object near Player
                     _crateArray[j].Draw();
                 }
             }
