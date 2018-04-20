@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 using ArrayList = System.Collections.ArrayList;
 
@@ -14,6 +15,7 @@ namespace Caterpillar.Raupe
 {
     class Raupe
     {
+        SoundEffect _dyingSound = Global.ContentManager.Load<SoundEffect>("Crack");
         float _tailSize = 0.5f;
         public int _score;
         public bool _isAlive;
@@ -64,6 +66,8 @@ namespace Caterpillar.Raupe
         }
         public void gameLost()
         {
+            _dyingSound.Play();
+            Global._isLoseScreen = true;
             _head.SpinAround();
             for (int i = 0; i < _bodyPartArray.Count; i++)
             {
@@ -74,7 +78,8 @@ namespace Caterpillar.Raupe
         }
         public void gameWon()
         {
-
+            Global._isDeadTime = 10;
+            Global._gameActive = false;
         }
 
         //Draw

@@ -48,6 +48,8 @@ namespace Caterpillar.MapObject
                 _modelBody = Global.ContentManager.Load<Model>("pinev2"); //Baum
             else if (_size <= 10)
                 _modelBody = Global.ContentManager.Load<Model>("Stonev1"); //Stein
+            else if (_size <= 100)
+                _modelBody = Global.ContentManager.Load<Model>("Wall"); //Mauer
         }
         public void Init()
         {
@@ -136,7 +138,7 @@ namespace Caterpillar.MapObject
 
         public bool IsColliding(Vector3 _fPos)
         {
-            if(_size!=4 && _size != 10)
+            if(_size!=4 && _size != 10 && _size != 100)
             {
                 if (Global.VectorDistance(_fPos, _position)
                     < 0.5 * 0.6f * _size + 0.5 * 0.5f * Global._playerScale)
@@ -177,6 +179,12 @@ namespace Caterpillar.MapObject
             {
                 if (Global.VectorDistance(_fPos, _position)
     < 0.5 * 0.5f * _size + 0.5 * 0.5f * Global._playerScale)
+                    return true;
+            }
+            else if (_size == 100)
+            {
+                if (Global.VectorDistance(_fPos, _position)
+    < 0.5 * 0.5f * 10 + 0.5 * 0.5f * Global._playerScale)
                     return true;
             }
             return false;

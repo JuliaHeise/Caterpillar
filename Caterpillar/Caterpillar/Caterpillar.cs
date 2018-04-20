@@ -16,6 +16,9 @@ namespace Caterpillar
         Texture2D _CreditsTexture;
         Texture2D _ControlsTexture;
         Texture2D _LoseTexture;
+        Texture2D _WinTexture;
+
+        int _stoneNum = 3;
 
 
 
@@ -24,6 +27,8 @@ namespace Caterpillar
         Texture2D _eatingEffect;
         int _mouseClickSkipCounter=0;
         bool _deathSkipAClick = false;
+        bool _cheatDeath = false;
+        bool _afterGame = false;
         Model[] GameBackground;
         SoundEffect _eatingSound;
         SoundEffect _dyingSound;
@@ -54,7 +59,7 @@ namespace Caterpillar
                 if (_allObjectsSpawned)
                 {
                     int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f*_BorderPos.X-i*3, 0.5f * _BorderPos.Y, 0), 10);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f*_BorderPos.X-i*3, 0.5f * _BorderPos.Y, 0), 100);
                 }
             }
             for (int i = 0; i < _BorderPos.X / 3; i++)
@@ -62,7 +67,7 @@ namespace Caterpillar
                 if (_allObjectsSpawned)
                 {
                     int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * -_BorderPos.Y, 0), 10);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * -_BorderPos.Y, 0), 100);
                 }
             }
             
@@ -71,7 +76,7 @@ namespace Caterpillar
                 if (_allObjectsSpawned)
                 {
                     int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 100);
                 }
             }
             for (int i = 0; i < _BorderPos.Y / 3; i++)
@@ -79,7 +84,7 @@ namespace Caterpillar
                 if (_allObjectsSpawned)
                 {
                     int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * - _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * - _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 100);
                 }
             }
         }
@@ -143,13 +148,11 @@ namespace Caterpillar
                             _Raupe.AddToLength(1);
                             _eatingSound.Play();
                         }
-                        else
+                        else if (!_cheatDeath)
                         {
                             _deathSkipAClick = true;
                             _Raupe._isAlive = false;
                             _dyingSound.Play();
-                            //Global._gameActive = false;
-                            Global._isLoseScreen = true;
                             _Raupe.gameLost();
                         }
                     }
@@ -189,6 +192,7 @@ namespace Caterpillar
             _CreditsTexture = Global.ContentManager.Load<Texture2D>("Credits");
             _ControlsTexture = Global.ContentManager.Load<Texture2D>("Control");
             _LoseTexture = Global.ContentManager.Load<Texture2D>("GameOver");
+            _WinTexture = Global.ContentManager.Load<Texture2D>("GameWon2");
 
 
 
@@ -220,12 +224,37 @@ namespace Caterpillar
 
         protected override void Update(GameTime gameTime)
         {
+            //Game won?
+            if(Global.CountNullEntries(_crateArray) == _maxCrateNum - _borderElementNum - _stoneNum -5 && !_afterGame )
+            {
+                Global._isWinScreen = true;
+            }
+
+            if (_afterGame && Global.CountNullEntries(_crateArray) == _maxCrateNum - _borderElementNum - _stoneNum - 5)
+            {
+                SpawnCrates(10, 5);
+                SpawnCrates(6, 6);
+            }
+
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
                 ButtonState.Pressed || Keyboard.GetState().IsKeyDown(
                 Keys.Escape))
                 Exit();
 
             _mouseClickSkipCounter++;
+            if (Keyboard.GetState().IsKeyDown(Keys.F11) && _mouseClickSkipCounter > 10)
+            {
+                Global.graphics.IsFullScreen = !Global.graphics.IsFullScreen;
+                Global.graphics.ApplyChanges();
+                _mouseClickSkipCounter = 0;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.F9) && _mouseClickSkipCounter > 10) //cheat
+            {
+                _cheatDeath = !_cheatDeath;
+                _mouseClickSkipCounter = 0;
+            }
 
             //Screens
             if (Global._isTitleScreen)
@@ -258,15 +287,25 @@ namespace Caterpillar
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter > 10) //Spiel starten durch linksclick
                 {
+                    _afterGame = false;
                     Global._isLoseScreen = false;
                     _mouseClickSkipCounter = 0;
                 }
             }
-            else if (Global._isWinScreen)
+            else if (Global._isWinScreen && !_afterGame)
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && _mouseClickSkipCounter > 10) //Spiel starten durch linksclick
                 {
+                    _afterGame = true;
                     Global._isWinScreen = false;
+                    _mouseClickSkipCounter = 0;
+                }
+                if (Mouse.GetState().RightButton == ButtonState.Pressed && _mouseClickSkipCounter > 10) //Spiel starten durch linksclick
+                {
+                    Global._isWinScreen = false;
+                    _deathSkipAClick = true;
+                    _player._isAlive = false;
+                    _player.gameWon();
                     _mouseClickSkipCounter = 0;
                 }
             }
@@ -353,7 +392,7 @@ namespace Caterpillar
                         SpawnCrates(15, 4); //55:40
                         SpawnCrates(10, 5); //65:50
                         SpawnCrates(6, 6);
-                        SpawnCrates(2, 10);
+                        SpawnCrates(_stoneNum, 10);
                         _allObjectsSpawned = true;
                     }
 
@@ -476,7 +515,7 @@ namespace Caterpillar
             else if (Global._isLoseScreen)
                 Global.spriteBatch.Draw(_LoseTexture, new Vector2(0, 0));
             else if (Global._isWinScreen)
-                Global.spriteBatch.Draw(_LoseTexture, new Vector2(0, 0));
+                Global.spriteBatch.Draw(_WinTexture, new Vector2(0, 0));
 
 
             Global.spriteBatch.End();

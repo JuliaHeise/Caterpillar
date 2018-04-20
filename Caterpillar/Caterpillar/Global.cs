@@ -22,6 +22,8 @@ namespace Caterpillar
 
 
 
+
+
         public static Random _rndCratePhase = new Random();
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
@@ -87,22 +89,5 @@ namespace Caterpillar
 
     }
 }
-
-/*
-         //Screens
-        Texture2D _TitleTexture;
-        Texture2D _CreditsTexture;
-        Texture2D _ControlsTexture;
-        Texture2D _LoseTexture;
-
-            SoundEffect _dyingSound;
-        SoundEffect _forestSound;
-        SoundEffectInstance _forestLoop;
-
-    Vector3 _BorderPos = new Vector3(Global.gameSizeWidth+6, Global.gameSizeHeight+6, 0);
-
-     
-     
-     */
 
 
