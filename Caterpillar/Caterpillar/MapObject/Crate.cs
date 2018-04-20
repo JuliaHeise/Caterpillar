@@ -136,7 +136,7 @@ namespace Caterpillar.MapObject
 
         public bool IsColliding(Vector3 _fPos)
         {
-            if(_size!=4)
+            if(_size!=4 && _size != 10)
             {
                 if (Global.VectorDistance(_fPos, _position)
                     < 0.5 * 0.6f * _size + 0.5 * 0.5f * Global._playerScale)
@@ -144,7 +144,7 @@ namespace Caterpillar.MapObject
             }
             else if (_size == 4)
             {
-                float _width = 2f;
+                float _width = 1f;
                 float _height = 5f;
 
                 Vector3[] _corners = new Vector3[4];
@@ -172,6 +172,12 @@ namespace Caterpillar.MapObject
                 }
 
 
+            }
+            else if (_size == 10)
+            {
+                if (Global.VectorDistance(_fPos, _position)
+    < 0.5 * 0.5f * _size + 0.5 * 0.5f * Global._playerScale)
+                    return true;
             }
             return false;
         }

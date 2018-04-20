@@ -12,6 +12,16 @@ namespace Caterpillar
 {
     public class Global : Game
     {
+        //Screens:
+        public static bool _isTitleScreen = true;
+        public static bool _isCreditScreen = false;
+        public static bool _isControlsScreen = false;
+        public static bool _isLoseScreen = false;
+        public static bool _isWinScreen = false;
+
+
+
+
         public static Random _rndCratePhase = new Random();
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
@@ -29,8 +39,8 @@ namespace Caterpillar
 
         public static int viewSizeWidth = 1600; //Breite des Spielfensters
         public static int viewSizeHeight = 900;
-        public static int gameSizeWidth = 40; //Breite des Spielfeldes (3D Maß)
-        public static int gameSizeHeight = 40;
+        public static int gameSizeWidth = 50; //Breite des Spielfeldes (3D Maß)
+        public static int gameSizeHeight = 50;
         public static float _playerScale;
 
         public static int _gamePhase = 1;
@@ -77,3 +87,22 @@ namespace Caterpillar
 
     }
 }
+
+/*
+         //Screens
+        Texture2D _TitleTexture;
+        Texture2D _CreditsTexture;
+        Texture2D _ControlsTexture;
+        Texture2D _LoseTexture;
+
+            SoundEffect _dyingSound;
+        SoundEffect _forestSound;
+        SoundEffectInstance _forestLoop;
+
+    Vector3 _BorderPos = new Vector3(Global.gameSizeWidth+6, Global.gameSizeHeight+6, 0);
+
+     
+     
+     */
+
+
