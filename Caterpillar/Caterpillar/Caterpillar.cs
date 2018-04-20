@@ -20,6 +20,8 @@ namespace Caterpillar
         Texture2D _LoseTexture;
         Texture2D _WinTexture;
 
+        bool _skipGrowingSound = false;
+
         int _stoneNum = 3;
 
 
@@ -35,6 +37,7 @@ namespace Caterpillar
         SoundEffect _eatingSound;
         SoundEffect _dyingSound;
         SoundEffect _forestSound;
+        SoundEffect _growingSound;
         SoundEffectInstance _forestLoop;
         static bool _allObjectsSpawned = false;
         static bool _onlyDoOnce = true;
@@ -194,7 +197,7 @@ namespace Caterpillar
 
             //Screens
             _TitleTexture = Global.ContentManager.Load<Texture2D>("Titel2");
-            _CreditsTexture = Global.ContentManager.Load<Texture2D>("Credits");
+            _CreditsTexture = Global.ContentManager.Load<Texture2D>("Credits2");
             _ControlsTexture = Global.ContentManager.Load<Texture2D>("Control");
             _LoseTexture = Global.ContentManager.Load<Texture2D>("GameOver");
             _WinTexture = Global.ContentManager.Load<Texture2D>("GameWon2");
@@ -216,6 +219,7 @@ namespace Caterpillar
 
             _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
             _dyingSound = Global.ContentManager.Load<SoundEffect>("Crack");
+            _growingSound = Global.ContentManager.Load<SoundEffect>("TwigSnap");
             _forestSound = Global.ContentManager.Load<SoundEffect>("ForestSound2");
             _forestLoop = _forestSound.CreateInstance();
             _forestLoop.IsLooped = true;
@@ -238,7 +242,7 @@ namespace Caterpillar
             if (_afterGame && Global.CountNullEntries(_crateArray) == _maxCrateNum - _borderElementNum - _stoneNum - 5)
             {
                 SpawnCrates(10, 5);
-                SpawnCrates(6, 6);
+                //SpawnCrates(6, 6);
             }
 
 
@@ -316,6 +320,35 @@ namespace Caterpillar
             }
             else
             {
+
+                if(_player._score == 10 && !_skipGrowingSound)
+                {
+                    _growingSound.Play();
+                    _skipGrowingSound = true;
+                }
+                else if (_player._score == 30 && !_skipGrowingSound)
+                {
+                    _growingSound.Play();
+                    _skipGrowingSound = true;
+                }
+                else if (_player._score == 40 && !_skipGrowingSound)
+                {
+                    _growingSound.Play();
+                    _skipGrowingSound = true;
+                }
+                else if (_player._score == 50 && !_skipGrowingSound)
+                {
+                    _growingSound.Play();
+                    _skipGrowingSound = true;
+                }
+                else if (_player._score == 100 && !_skipGrowingSound)
+                {
+                    _growingSound.Play();
+                    _skipGrowingSound = true;
+                }
+                else if (_player._score != 100 && _player._score != 10 && _player._score != 30 && _player._score != 40 && _player._score != 50)
+                    _skipGrowingSound = false;
+
 
 
                 //Kamera
