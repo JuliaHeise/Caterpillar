@@ -24,7 +24,7 @@ namespace Caterpillar
         Texture2D _eatingEffect;
         int _mouseClickSkipCounter=0;
         bool _deathSkipAClick = false;
-        Model GameBackground;
+        Model[] GameBackground;
         SoundEffect _eatingSound;
         SoundEffect _dyingSound;
         SoundEffect _forestSound;
@@ -194,8 +194,17 @@ namespace Caterpillar
 
             Global.spriteBatch = new SpriteBatch(GraphicsDevice);
             _textureCursor = Global.ContentManager.Load<Texture2D>("CursorMini");
-            _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v3");
-            GameBackground = Global.ContentManager.Load<Model>("Background2");
+            _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v4");
+
+            //background
+            GameBackground = new Model[9];
+            for (int i = 0; i < 9; i++)
+            {
+                GameBackground[i] = Global.ContentManager.Load<Model>("Background2");
+            }
+
+
+
             _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
             _dyingSound = Global.ContentManager.Load<SoundEffect>("Crack");
             _forestSound = Global.ContentManager.Load<SoundEffect>("ForestSound2");
@@ -389,17 +398,39 @@ namespace Caterpillar
 
 
             //Background
-            foreach (ModelMesh mesh in GameBackground.Meshes)
+            for (int i = 0; i < 9; i++)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                Vector3 _backPos = new Vector3(0, 0, 0);
+                if(i ==1)
+                    _backPos = new Vector3(Global.gameSizeWidth+5, 0, 0);
+                if (i == 8)
+                    _backPos = new Vector3(-Global.gameSizeWidth - 5, 0, 0);
+                if (i == 2)
+                    _backPos = new Vector3(Global.gameSizeWidth + 1.8f, Global.gameSizeHeight + 1.8f, 0);
+                if (i == 3)
+                    _backPos = new Vector3(Global.gameSizeWidth + 1.8f, -Global.gameSizeHeight - 1.8f, 0);
+                if (i == 4)
+                    _backPos = new Vector3(-Global.gameSizeWidth - 1.8f, -Global.gameSizeHeight - 1.8f, 0);
+                if (i == 5)
+                    _backPos = new Vector3(-Global.gameSizeWidth - 1.8f, Global.gameSizeHeight + 1.8f, 0);
+                if (i == 6)
+                    _backPos = new Vector3(0, Global.gameSizeHeight + 5, 0);
+                if (i == 7)
+                    _backPos = new Vector3(0, -Global.gameSizeHeight - 5, 0);
+
+
+                foreach (ModelMesh mesh in GameBackground[i].Meshes)
                 {
-                    //effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(0, 0, 0);
-                    effect.View = Global.GameCamera._viewMatrix;
-                    effect.World = Matrix.CreateWorld(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Up);
-                    effect.Projection = Global.GameCamera._projectionMatrix;
+                    foreach (BasicEffect effect in mesh.Effects)
+                    {
+                        //effect.EnableDefaultLighting();
+                        effect.AmbientLightColor = new Vector3(0, 0, 0);
+                        effect.View = Global.GameCamera._viewMatrix;
+                        effect.World = Matrix.CreateWorld(_backPos, Vector3.Forward, Vector3.Up);
+                        effect.Projection = Global.GameCamera._projectionMatrix;
+                    }
+                    mesh.Draw();
                 }
-                mesh.Draw();
             }
 
 
