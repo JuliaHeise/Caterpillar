@@ -162,6 +162,7 @@ namespace Caterpillar
             }
         }
 
+<<<<<<< HEAD
         public Caterpillar()
         {
             Global.graphics = new GraphicsDeviceManager(this);
