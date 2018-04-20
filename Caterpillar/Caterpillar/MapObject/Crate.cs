@@ -45,7 +45,7 @@ namespace Caterpillar.MapObject
             else if (_size <= 5)
                 _modelBody = Global.ContentManager.Load<Model>("BetterBush"); //Busch // noch kein Model
             else if (_size <= 6)
-                _modelBody = Global.ContentManager.Load<Model>("pinev2"); //Baum
+                _modelBody = Global.ContentManager.Load<Model>("BetterPine"); //Baum
             else if (_size <= 10)
                 _modelBody = Global.ContentManager.Load<Model>("Stonev1"); //Stein
             else if (_size <= 100)

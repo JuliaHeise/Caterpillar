@@ -11,6 +11,8 @@ namespace Caterpillar
 
     public class Caterpillar : Game
     {
+        SpriteFont _scoreText;
+
         //Screens
         Texture2D _TitleTexture;
         Texture2D _CreditsTexture;
@@ -187,6 +189,9 @@ namespace Caterpillar
 
         protected override void LoadContent()
         {
+            _scoreText = Content.Load<SpriteFont>("ScoreFont");
+
+
             //Screens
             _TitleTexture = Global.ContentManager.Load<Texture2D>("Titel2");
             _CreditsTexture = Global.ContentManager.Load<Texture2D>("Credits");
@@ -513,7 +518,10 @@ namespace Caterpillar
             else if (Global._isControlsScreen)
                 Global.spriteBatch.Draw(_ControlsTexture, new Vector2(0, 0));
             else if (Global._isLoseScreen)
+            {
                 Global.spriteBatch.Draw(_LoseTexture, new Vector2(0, 0));
+                Global.spriteBatch.DrawString(_scoreText, "Score: " + _player._score, new Vector2((int)(0.75 * Global.gameSizeWidth), (int)(0.75*Global.gameSizeHeight)), Color.LimeGreen);
+            }
             else if (Global._isWinScreen)
                 Global.spriteBatch.Draw(_WinTexture, new Vector2(0, 0));
 
