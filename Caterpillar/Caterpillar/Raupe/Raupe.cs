@@ -48,6 +48,7 @@ namespace Caterpillar.Raupe
             _bodyPartArray.Clear();
             _isAlive = false;
             _scale = 1f;
+            Global._playerScale = 1;
 
         }
         public void Respawn()
