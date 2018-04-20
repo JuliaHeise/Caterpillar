@@ -38,8 +38,6 @@ namespace Caterpillar
 
         //Konstanten
 
-        float _InitialCrateDistance = 0.5f;
-
         //Kistenspawnfunktion
         public static int _maxCrateNum = 200;
         public static MapObject.Crate[] _crateArray;
@@ -137,9 +135,6 @@ namespace Caterpillar
             {
                 if (_CArray[i] != null)
                 {
-                    // if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5*_InitialCrateDistance+ 0.5 * _InitialCrateDistance * _Raupe._scale)
-
-                   // if (Global.VectorDistance(_Raupe.getPosition(), _CArray[i]._position) < 0.5 * _InitialCrateDistance * _CArray[i]._size + 0.5 * _InitialCrateDistance * _Raupe._scale)
                     if(_CArray[i].IsColliding(_Raupe.getPosition()))
                     {
                         if (Global._gamePhase >= _CArray[i]._size - 1)
@@ -162,7 +157,6 @@ namespace Caterpillar
             }
         }
 
-<<<<<<< HEAD
         public Caterpillar()
         {
             Global.graphics = new GraphicsDeviceManager(this);
