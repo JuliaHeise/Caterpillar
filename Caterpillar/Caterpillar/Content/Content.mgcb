@@ -63,18 +63,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Tail1.dae
 
-#begin Black.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Black.png
-
 #begin Food1V2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -86,25 +74,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Food1V2.png
-
-#begin Food1v4.dae
-/importer:OpenAssetImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=180
-/processorParam:RotationZ=0
-/processorParam:Scale=0.6
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:Food1v4.dae
 
 #begin needlev2.png
 /importer:TextureImporter
@@ -192,25 +161,6 @@
 /processorParam:TextureFormat=Color
 /build:Tree.png
 
-#begin pinev2.dae
-/importer:OpenAssetImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=180
-/processorParam:RotationZ=0
-/processorParam:Scale=1
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:pinev2.dae
-
 #begin Stonev3.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -228,18 +178,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:EatingSound.mp3
-
-#begin EatingAnim1v3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:EatingAnim1v3.png
 
 #begin Background.png
 /importer:TextureImporter
@@ -334,63 +272,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Food1v9.dae
 
-#begin Bush.fbx
-/importer:FbxImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=180
-/processorParam:RotationZ=0
-/processorParam:Scale=0.4
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:Bush.fbx
-
-#begin OriginalBush.dae
-/importer:OpenAssetImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=180
-/processorParam:RotationZ=0
-/processorParam:Scale=0.4
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:OriginalBush.dae
-
-#begin Bushv5.dae
-/importer:OpenAssetImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=180
-/processorParam:RotationZ=0
-/processorParam:Scale=0.3
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:Bushv5.dae
-
 #begin Blatt2.png.002.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -481,30 +362,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Control.png
-
-#begin Credits.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Credits.png
-
-#begin Titel.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Titel.png
 
 #begin Titel2.png
 /importer:TextureImporter
