@@ -26,7 +26,6 @@ namespace Caterpillar
         Raupe.Raupe _player;
 
         //Konstanten
-
         float _InitialCrateDistance = 0.5f;
 
         //Kistenspawnfunktion
@@ -35,46 +34,100 @@ namespace Caterpillar
         public static int _emptySpacePostSpawn;
         public static int _borderElementNum = 0;
 
-        public static void DrawBorder()
+        // Initialize
+        public Caterpillar()
         {
-            _emptySpacePostSpawn = Global.CountNullEntries(_crateArray);
+            Global.graphics = new GraphicsDeviceManager(this);
+            //graphics.IsFullScreen = true;
+            Content.RootDirectory = "Content";
+            Global.ContentManager = Content;
+            Global.graphics.PreferredBackBufferWidth = Global.viewSizeWidth;  // Fenstermaße setzen
+            Global.graphics.PreferredBackBufferHeight = Global.viewSizeHeight;
+            Global.graphics.ApplyChanges();
+            //Global Camera init
+            Global.GameCamera = new Camera.Camera();
+            //Player
+            _player = new Raupe.Raupe();
 
-            Vector3 _BorderPos = new Vector3(Global.gameSizeWidth+3, Global.gameSizeHeight+3, 0);
-            for (int i = 0; i < _BorderPos.X/3; i++)
-            {
-                if (_allObjectsSpawned)
-                {
-                    int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f*_BorderPos.X-i*3, 0.5f * _BorderPos.Y, 0), 10);
-                }
-            }
-            for (int i = 0; i < _BorderPos.X / 3; i++)
-            {
-                if (_allObjectsSpawned)
-                {
-                    int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * -_BorderPos.Y, 0), 10);
-                }
-            }
-            
-            for (int i = 0; i < _BorderPos.Y / 3; i++)
-            {
-                if (_allObjectsSpawned)
-                {
-                    int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
-                }
-            }
-            for (int i = 0; i < _BorderPos.Y / 3; i++)
-            {
-                if (_allObjectsSpawned)
-                {
-                    int _emptySpace = Global.CountNullEntries(_crateArray);
-                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * - _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
-                }
-            }
+
+            _crateArray = new MapObject.Crate[_maxCrateNum];
+
+        }
+        protected override void Initialize()
+        {
+            //this.IsMouseVisible = true;
+            base.Initialize();
+        }
+        protected override void LoadContent()
+        {
+            Global.spriteBatch = new SpriteBatch(GraphicsDevice);
+            _textureCursor = Global.ContentManager.Load<Texture2D>("Black");
+            _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v3");
+            GameBackground = Global.ContentManager.Load<Model>("Background2");
+            _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
+            _player.Load();
         }
 
+        //Draw
+        protected override void Draw(GameTime gameTime)
+        {
+
+            GraphicsDevice.Clear(Color.ForestGreen);
+
+
+            //Background
+            foreach (ModelMesh mesh in GameBackground.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    //effect.EnableDefaultLighting();
+                    effect.AmbientLightColor = new Vector3(0, 0, 0);
+                    effect.View = Global.GameCamera._viewMatrix;
+                    effect.World = Matrix.CreateWorld(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Up);
+                    effect.Projection = Global.GameCamera._projectionMatrix;
+                }
+                mesh.Draw();
+            }
+
+
+
+            //2D Zeug unter 3D Map Zeug
+            Global.spriteBatch.Begin();
+            if (Global._isEatingAnimation > 0)
+            {
+                Global.spriteBatch.Draw(_eatingEffect, new Vector2(0.5f * Global.viewSizeWidth - 0.5f * _eatingEffect.Width - _player.getDirection().X * 75, 0.5f * Global.viewSizeHeight - 0.5f * _eatingEffect.Height - _player.getDirection().Y * 75));
+                Global._isEatingAnimation--;
+            }
+            Global.spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
+
+
+
+            //3D Map Zeug
+            _player.Draw();
+
+            for (int j = 0; j < _maxCrateNum; j++)
+            {
+                if (_crateArray[j] != null)
+                {
+                    if ((_crateArray[j]._position.X < _player.getPosition().X + 16 * _player._scale
+                        && _crateArray[j]._position.X > _player.getPosition().X - 16 * _player._scale)
+                        && (_crateArray[j]._position.Y < _player.getPosition().Y + 10 * _player._scale
+                        && _crateArray[j]._position.Y > _player.getPosition().Y - 10 * _player._scale)) //Object near Player
+                        _crateArray[j].Draw();
+                }
+            }
+
+            //2D Zeug über 3D zeug
+            Global.spriteBatch.Begin();
+            Global.spriteBatch.Draw(_textureCursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y));
+            Global.spriteBatch.End();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            base.Draw(gameTime);
+        }
+
+        //Generate Map
         void SpawnCrates(int n, float _cSize)
         {
             _rnd = new Random();
@@ -117,7 +170,47 @@ namespace Caterpillar
                 }
             }
         }
+        public static void DrawBorder()
+        {
+            _emptySpacePostSpawn = Global.CountNullEntries(_crateArray);
 
+            Vector3 _BorderPos = new Vector3(Global.gameSizeWidth + 3, Global.gameSizeHeight + 3, 0);
+            for (int i = 0; i < _BorderPos.X / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * _BorderPos.Y, 0), 10);
+                }
+            }
+            for (int i = 0; i < _BorderPos.X / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X - i * 3, 0.5f * -_BorderPos.Y, 0), 10);
+                }
+            }
+
+            for (int i = 0; i < _BorderPos.Y / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * _BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                }
+            }
+            for (int i = 0; i < _BorderPos.Y / 3; i++)
+            {
+                if (_allObjectsSpawned)
+                {
+                    int _emptySpace = Global.CountNullEntries(_crateArray);
+                    _crateArray[_crateArray.Length - _emptySpace] = new MapObject.Crate(new Vector3(0.5f * -_BorderPos.X, 0.5f * _BorderPos.Y - i * 3, 0), 10);
+                }
+            }
+        }
+
+        //additional functions
         //Kollisionsfunktion
         void CheckPlayerCollision(Raupe.Raupe _Raupe, MapObject.Crate[] _CArray)
         {
@@ -148,45 +241,7 @@ namespace Caterpillar
             }
         }
 
-        public Caterpillar()
-        {
-            Global.graphics = new GraphicsDeviceManager(this);
-            //graphics.IsFullScreen = true;
-            Content.RootDirectory = "Content";
-            Global.ContentManager = Content;
-            Global.graphics.PreferredBackBufferWidth = Global.viewSizeWidth;  // Fenstermaße setzen
-            Global.graphics.PreferredBackBufferHeight = Global.viewSizeHeight;
-            Global.graphics.ApplyChanges();
-            //Global Camera init
-            Global.GameCamera = new Camera.Camera();
-            //Player
-            _player = new Raupe.Raupe();
-
-
-            _crateArray = new MapObject.Crate[_maxCrateNum];
-
-        }
-
-        protected override void Initialize()
-        {
-            //this.IsMouseVisible = true;
-            base.Initialize();        
-        }
-
-        protected override void LoadContent()
-        {
-            Global.spriteBatch = new SpriteBatch(GraphicsDevice);
-            _textureCursor = Global.ContentManager.Load<Texture2D>("Black");
-            _eatingEffect = Global.ContentManager.Load<Texture2D>("EatingAnim1v3");
-            GameBackground = Global.ContentManager.Load<Model>("Background2");
-            _eatingSound = Global.ContentManager.Load<SoundEffect>("EatingSound");
-            _player.Load();
-        }
-
-        protected override void UnloadContent()
-        {
-        }
-
+        //Update
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
@@ -312,62 +367,12 @@ namespace Caterpillar
 
         }
 
-        protected override void Draw(GameTime gameTime)
+       
+        
+        //unused functions
+        /*
+        protected override void UnloadContent()
         {
-
-            GraphicsDevice.Clear(Color.ForestGreen);
-
-
-            //Background
-            foreach (ModelMesh mesh in GameBackground.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    //effect.EnableDefaultLighting();
-                    effect.AmbientLightColor = new Vector3(0, 0, 0);
-                    effect.View = Global.GameCamera._viewMatrix;
-                    effect.World = Matrix.CreateWorld(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Up);
-                    effect.Projection = Global.GameCamera._projectionMatrix;
-                }
-                mesh.Draw();
-            }
-
-
-
-            //2D Zeug unter 3D Map Zeug
-            Global.spriteBatch.Begin();
-            if (Global._isEatingAnimation>0)
-            {
-                Global.spriteBatch.Draw(_eatingEffect, new Vector2(0.5f*Global.viewSizeWidth- 0.5f * _eatingEffect.Width -_player.getDirection().X*75, 0.5f*Global.viewSizeHeight - 0.5f * _eatingEffect.Height - _player.getDirection().Y * 75));
-                Global._isEatingAnimation--;
-            }
-            Global.spriteBatch.End();
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default; //muss sein da spritebatch.begin den Stencil auf none setzt
-
-
-
-            //3D Map Zeug
-            _player.Draw();
-
-            for (int j = 0; j < _maxCrateNum; j++)
-            {
-                if (_crateArray[j] != null)
-                {
-                    if((_crateArray[j]._position.X < _player.getPosition().X + 16 *_player._scale
-                        && _crateArray[j]._position.X > _player.getPosition().X - 16 * _player._scale)
-                        && (_crateArray[j]._position.Y < _player.getPosition().Y + 10 * _player._scale
-                        && _crateArray[j]._position.Y > _player.getPosition().Y - 10 * _player._scale)) //Object near Player
-                    _crateArray[j].Draw();
-                }
-            }
-
-            //2D Zeug über 3D zeug
-            Global.spriteBatch.Begin();
-            Global.spriteBatch.Draw(_textureCursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y));
-            Global.spriteBatch.End();
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default; 
-
-            base.Draw(gameTime);
-        }
+        }*/
     }
 }
